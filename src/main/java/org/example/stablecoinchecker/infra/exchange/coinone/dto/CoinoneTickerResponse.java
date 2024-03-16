@@ -1,8 +1,8 @@
-package org.example.stablecoinchecker.infra.coinone.dto;
+package org.example.stablecoinchecker.infra.exchange.coinone.dto;
 
 import java.util.List;
 
-public record CoinonePriceResponse(
+public record CoinoneTickerResponse(
         String result,
         String errorCode,
         List<Ticker> tickers
