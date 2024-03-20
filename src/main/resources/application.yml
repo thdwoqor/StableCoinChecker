@@ -1,9 +1,7 @@
 telegram:
-  chatId: ${TELEGRAM_CHATID}
+  chatId: ${TELEGRAM_CHA_TID}
   token: ${TELEGRAM_TOKEN}
-coinmarketcap:
-  secret: ${COINMARKETCAP_SECRET}
 schedule:
   cron: 0 */5 * * * *
 server:
-  port: ${SERVER_PORT}
+  port: ${PORT}
