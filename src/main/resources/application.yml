@@ -1,18 +1,4 @@
 telegram:
-  chatId: CHAT_ID
-  token: TOKEN
-schedule:
-  cron: 0 */5 * * * *
-server:
-  port: 8080
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: prod
-telegram:
   chatId: ${TELEGRAM_CHA_TID}
   token: ${TELEGRAM_TOKEN}
 schedule:
