@@ -1,3 +1,13 @@
+telegram:
+  chatId: CHAT_ID
+  token: TOKEN
+schedule:
+  cron: 0 */5 * * * *
+server:
+  port: 8080
+
+---
+
 spring:
   config:
     activate:
@@ -9,16 +19,3 @@ schedule:
   cron: 0 */5 * * * *
 server:
   port: ${PORT}
-
----
-
-spring:
-  profiles:
-    default: local
-telegram:
-  chatId: CHAT_ID
-  token: TOKEN
-schedule:
-  cron: 0 */5 * * * *
-server:
-  port: 8080
