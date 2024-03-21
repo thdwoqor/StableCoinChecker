@@ -1,7 +1,25 @@
+spring:
+  config:
+    activate:
+      on-profile: local
 telegram:
-  chatId: ${TELEGRAM_CHA_TID}
+  chatId: CHAT_ID
+  token: TOKEN
+schedule:
+  cron: 0 */5 * * * *
+server:
+  port: 8080
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+telegram:
+  chatId: ${TELEGRAM_CHAT_ID}
   token: ${TELEGRAM_TOKEN}
 schedule:
   cron: 0 */5 * * * *
 server:
-  port: ${SERVER_PORT}
+  port: ${PORT}
