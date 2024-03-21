@@ -18,4 +18,4 @@ telegram:
 schedule:
   cron: 0 */5 * * * *
 server:
-  port: ${PORT}
+  port: ${SERVER_PORT}
