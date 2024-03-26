@@ -25,13 +25,4 @@ public class CoinoneProvider implements StableCoinProvider {
                 price
         ));
     }
-
-//    @Override
-//    public StableCoinResponse getTicker(final String symbol, final String currency) {
-//        CoinoneTickerResponse response = coinoneClient.getTicker(symbol, currency);
-//        String price = response.tickers().get(0).last();
-//        return new StableCoinResponse(price);
-//    }
-
-
 }

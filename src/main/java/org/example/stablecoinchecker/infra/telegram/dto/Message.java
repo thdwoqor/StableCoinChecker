@@ -37,7 +37,7 @@ public class Message {
         return new Message(sb.toString());
     }
 
-    public static Message StableCoinPricesOf(final List<Coin> coins) {
+    public static Message stableCoinPricesOf(final List<Coin> coins) {
         StringBuilder sb = new StringBuilder();
         sb.append("• *국내 스테이블 코인 가격*\n");
         sb.append("```복사\n");

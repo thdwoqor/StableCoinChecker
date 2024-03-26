@@ -24,10 +24,4 @@ public class BithumProvider implements StableCoinProvider {
                 response.data().closingPrice()
         ));
     }
-
-//    @Override
-//    public StableCoinResponse getTicker(final String symbol, final String currency) {
-//        BithumbTickerResponse response = bithumbClient.getTicker(symbol, currency);
-//        return new StableCoinResponse(response.data().closingPrice());
-//    }
 }

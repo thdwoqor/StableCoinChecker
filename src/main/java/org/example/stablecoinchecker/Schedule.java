@@ -35,7 +35,7 @@ public class Schedule {
         return TelegramResponse.of(List.of(
                 Message.exchangeRateOf(exchangeRate),
                 Message.estimatedPriceOf(coinService.getEstimatedStableCoin()),
-                Message.StableCoinPricesOf(coinService.getStableCoin())
+                Message.stableCoinPricesOf(coinService.getStableCoin())
         ));
     }
 }

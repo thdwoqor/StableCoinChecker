@@ -24,10 +24,4 @@ public class GopaxProvider implements StableCoinProvider {
                 response.price()
         ));
     }
-
-//    @Override
-//    public StableCoinResponse getTicker(final String symbol, final String currency) {
-//        GopaxTickerResponse response = gopaxClient.getTicker(symbol,currency);
-//        return new StableCoinResponse(response.price());
-//    }
 }

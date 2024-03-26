@@ -15,12 +15,6 @@ public class KorbitProvider implements StableCoinProvider {
 
     private final KorbitClient korbitClient;
 
-//    @Override
-//    public StableCoinResponse getTicker(final String symbol, final String currency) {
-//        KorbitTickerResponse response = korbitClient.getTicker(symbol.toLowerCase(), currency.toLowerCase());
-//        return new StableCoinResponse(response.last());
-//    }
-
     @Override
     public List<StableCoinResponse> getStableCoin() {
         KorbitTickerResponse response = korbitClient.getTicker("usdc", "krw");
