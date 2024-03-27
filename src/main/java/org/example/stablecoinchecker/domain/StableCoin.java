@@ -5,16 +5,15 @@ import java.math.RoundingMode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.CryptocurrencyExchange;
-import org.example.stablecoinchecker.infra.cex.Symbol;
 
 @Getter
 @RequiredArgsConstructor
-public class Coin {
+public class StableCoin {
 
     private final BigDecimal exchangeRate;
     private final CryptocurrencyExchange cryptocurrencyExchange;
     private final BigDecimal price;
-    private final Symbol symbol;
+    private final String symbol;
 
     public BigDecimal calculateKimchiPremium() {
         return price.divide(exchangeRate, 3, RoundingMode.HALF_DOWN)

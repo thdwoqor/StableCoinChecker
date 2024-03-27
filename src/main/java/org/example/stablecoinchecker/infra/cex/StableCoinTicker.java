@@ -1,8 +1,8 @@
 package org.example.stablecoinchecker.infra.cex;
 
-public record StableCoinResponse(
+public record StableCoinTicker(
         CryptocurrencyExchange cex,
-        Symbol symbol,
+        String symbol,
         String price
 ) {
 }
