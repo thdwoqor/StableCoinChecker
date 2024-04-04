@@ -10,7 +10,8 @@ else
 fi
 
 cd /home/ec2-user/my-web-server/build/libs/
-nohup java -jar -Dserver.port=$green test-0.0.1-SNAPSHOT.jar &> webserverlog.log &
+jar_file=$(find . -name "*.jar")
+nohup java -jar -Dserver.port=$green "$jar_file" &> webserverlog.log &
 
 while [ "$(curl -Isw '%{http_code}' -o /dev/null http://localhost:$green)" == 000 ]
 do
