@@ -2,13 +2,22 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      java: corretto17
+    commands:
+      - echo installing phase ...
+      - java --version
+      - gradle --version
+  pre_build:
+    commands:
+      - echo pre build phase
   build:
     commands:
-      - echo Build Starting on `date`
-      - ./gradlew build -x test
+      - ./gradlew build
+  post_build:
+    commands:
+      - echo build successfully done
+
 artifacts:
   files:
     - build/libs/*.jar
-  discard-paths: yes
+    - appspec.yml
+    - start.sh

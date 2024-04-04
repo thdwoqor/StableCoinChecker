@@ -1,7 +1,0 @@
-telegram:
-  chatId: ${TELEGRAM_CHAT_ID}
-  token: ${TELEGRAM_TOKEN}
-schedule:
-  cron: 0 */15 * * * *
-server:
-  port: ${SERVER_PORT}

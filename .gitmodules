@@ -1,0 +1,3 @@
+[submodule "stable-coin-checker-secret"]
+	path = stable-coin-checker-secret
+	url = https://github.com/thdwoqor/stable-coin-checker-secret.git
