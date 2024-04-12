@@ -3,6 +3,7 @@ package org.example.stablecoinchecker.service;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.example.stablecoinchecker.infra.telegram.TelegramClient;
 import org.example.stablecoinchecker.infra.telegram.dto.Message;
 import org.example.stablecoinchecker.infra.telegram.dto.TelegramResponse;
@@ -24,6 +25,11 @@ public class MessageDeliveryService {
     private final UpbitService upbitService;
 
     @Scheduled(cron = "${schedule.cron}")
+    @SchedulerLock(
+            name = "scheduledSendMessageTask",
+            lockAtLeastFor = "4m",
+            lockAtMostFor = "4m"
+    )
     public void sendMessage() {
         if (token == null || chatId == null) {
             throw new IllegalArgumentException("텔레그램 작업을 수행하기 위해 필요한 토큰 및 채팅 ID가 설정되지 않았습니다.");
