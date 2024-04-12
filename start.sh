@@ -10,7 +10,7 @@ else
 fi
 
 cd /home/ec2-user/server/build/libs/
-nohup java -jar -Dserver.port=$green StableCoinChecker-0.0.1-SNAPSHOT.jar &> webserverlog.log &
+nohup java -jar -Dspring.profiles.active=prod -Dserver.port=$green StableCoinChecker-0.0.1-SNAPSHOT.jar &> webserverlog.log &
 
 while [ "$(curl -Isw '%{http_code}' -o /dev/null http://localhost:$green)" == 000 ]
 do
