@@ -25,3 +25,11 @@ variable "branch_name" {
 variable "public_key_path" {
   type = string
 }
+
+variable "ec2_prod_name" {
+  type = string
+}
+
+variable "ec2_mysql_name" {
+  type = string
+}
