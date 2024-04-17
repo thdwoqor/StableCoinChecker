@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
 import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
 import org.example.stablecoinchecker.infra.cex.gopax.dto.GopaxTickerResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 @Service
+@Order(5)
 @RequiredArgsConstructor
 public class GopaxTickerProvider implements StableCoinTickerProvider {
 
