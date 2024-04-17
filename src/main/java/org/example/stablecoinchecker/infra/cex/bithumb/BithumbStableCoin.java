@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum BithumbStableCoin {
-    USDT("USDT");
+    USDT("USDT"),
+    USDC("USDC");
 
     private final String name;
 
