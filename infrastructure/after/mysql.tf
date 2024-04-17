@@ -7,7 +7,10 @@ resource "aws_instance" "mysql" {
   vpc_security_group_ids      = [aws_security_group.mysql.id]
   user_data                   = file("./launch-mysql-instance.sh")
   iam_instance_profile        = aws_iam_instance_profile.mysql.name
-  tags                        = var.tags
+  tags                        = {
+    Terraform = "true"
+    Name      = "after-mysql"
+  }
 }
 
 resource "aws_security_group" "mysql" {
