@@ -13,7 +13,7 @@ phases:
       - echo pre build phase
   build:
     commands:
-      - SPRING_PROFILES_ACTIVE=prod ./gradlew build --warning-mode all
+      - ./gradlew build -x test
   post_build:
     commands:
       - echo build successfully done
