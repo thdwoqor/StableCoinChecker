@@ -46,7 +46,7 @@ public class Message {
 
     private static String formatStableCoinInfo(final StableCoinInfo stableCoinInfo) {
         return String.format(
-                "> %-8s(%s) : %,d원(%.1f%%)\n",
+                "\\> %-8s(%s) : %,d원(%.1f%%)\n",
                 stableCoinInfo.cex(),
                 stableCoinInfo.symbol(),
                 stableCoinInfo.price(),
