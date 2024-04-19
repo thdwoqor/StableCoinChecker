@@ -15,7 +15,10 @@ public record CoinoneTickerResponse(
         return new StableCoinTicker(
                 CryptocurrencyExchange.COINONE,
                 symbol.getName().toUpperCase(),
-                tickers.get(0).last()
+                tickers.get(0).last(),
+                tickers.get(0).first(),
+                tickers.get(0).low(),
+                tickers.get(0).high()
         );
     }
 }

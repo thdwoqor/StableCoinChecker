@@ -5,14 +5,19 @@ import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
 import org.example.stablecoinchecker.infra.cex.korbit.KorbitStableCoin;
 
 public record KorbitTickerResponse(
-        String last
+        String last,
+        String open,
+        String low,
+        String high
 ) {
-
     public StableCoinTicker toStableCoinTicker(KorbitStableCoin symbol) {
         return new StableCoinTicker(
                 CryptocurrencyExchange.KORBIT,
                 symbol.getName().toUpperCase(),
-                last
+                last,
+                open,
+                low,
+                high
         );
     }
 }

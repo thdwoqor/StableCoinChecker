@@ -27,7 +27,11 @@ public class UpbitService {
         StableCoinTicker stableCoinTicker = new StableCoinTicker(
                 CryptocurrencyExchange.UPBIT,
                 "USDT",
-                upbitUSDT.toString());
+                upbitUSDT.toString(),
+                upbitUSDT.toString(),
+                upbitUSDT.toString(),
+                upbitUSDT.toString()
+        );
 
         return StableCoinMapper.toStableCoinInfo(
                 stableCoinTicker,

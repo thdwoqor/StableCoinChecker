@@ -4,6 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record UpditTickerResponse(
         @JsonProperty("trade_price")
-        double tradePrice
+        double tradePrice,
+        @JsonProperty("opening_price")
+        double openingPrice,
+        @JsonProperty("low_price")
+        double lowPrice,
+        @JsonProperty("high_price")
+        double highPrice
 ) {
 }

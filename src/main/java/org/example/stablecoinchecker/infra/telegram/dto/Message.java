@@ -16,9 +16,9 @@ public class Message {
     public static Message createExchangeRateMessage(final BigDecimal exchangeRate) {
         StringBuilder sb = new StringBuilder();
         sb.append("• *환율*\n");
-        sb.append("```복사\n");
-        sb.append(String.format("USD/KRW : %,d원\n", exchangeRate.intValue()));
-        sb.append("```\n");
+//        sb.append("```복사\n");
+        sb.append(String.format("> USD/KRW : %,d원\n", exchangeRate.intValue()));
+//        sb.append("```\n");
         return new Message(sb.toString());
     }
 

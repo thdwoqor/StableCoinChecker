@@ -6,14 +6,17 @@ import org.example.stablecoinchecker.infra.cex.bithumb.BithumbStableCoin;
 
 public record BithumbTickerResponse(
         String status,
-        ExchangeData data
+        Data data
 ) {
 
     public StableCoinTicker toStableCoinTicker(BithumbStableCoin symbol) {
         return new StableCoinTicker(
                 CryptocurrencyExchange.BITHUMB,
                 symbol.getName().toUpperCase(),
-                data.closingPrice()
+                data.closingPrice(),
+                data.openingPrice(),
+                data.minPrice(),
+                data.maxPrice()
         );
     }
 }

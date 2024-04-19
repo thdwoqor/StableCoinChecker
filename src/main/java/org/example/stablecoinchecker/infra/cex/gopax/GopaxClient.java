@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "Gopax", url = "https://api.gopax.co.kr")
 public interface GopaxClient {
-    @GetMapping("/trading-pairs/{symbol}-{currency}/ticker")
+    @GetMapping("/trading-pairs/{symbol}-{currency}/stats")
     GopaxTickerResponse getTicker(
             @RequestParam("symbol") String symbol,
             @RequestParam("currency") String currency

@@ -12,7 +12,7 @@ public class StableCoinMapper {
         return new StableCoin(
                 new BigDecimal(String.valueOf(exchangeRate)),
                 response.cex(),
-                new BigDecimal(response.price()),
+                new BigDecimal(response.close()),
                 response.symbol()
         );
     }
