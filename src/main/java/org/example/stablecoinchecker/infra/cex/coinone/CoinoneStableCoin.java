@@ -4,8 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CoinoneStableCoin {
-    USDT("USDT"),
-    USDC("USDC");
+    USDT("USDT");
 
     private final String name;
 

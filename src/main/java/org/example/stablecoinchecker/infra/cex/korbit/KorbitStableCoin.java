@@ -4,8 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum KorbitStableCoin {
-    USDT("usdt"),
-    USDC("usdc");
+    USDT("usdt");
 
     private final String name;
 
