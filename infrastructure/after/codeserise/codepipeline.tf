@@ -8,7 +8,7 @@ resource "aws_codepipeline" "this" {
   role_arn = aws_iam_role.codepipeline.arn
 
   artifact_store {
-    location = aws_s3_bucket.this.bucket
+    location = data.terraform_remote_state.s3.outputs.s3_bucket
     type     = "S3"
   }
 
@@ -130,5 +130,5 @@ resource "aws_iam_role_policy" "codepipeline" {
 
 resource "aws_iam_role_policy_attachment" "codepipeline" {
   role       = aws_iam_role.codepipeline.id
-  policy_arn = aws_iam_policy.s3.arn
+  policy_arn = data.terraform_remote_state.s3.outputs.s3_iam_arn
 }

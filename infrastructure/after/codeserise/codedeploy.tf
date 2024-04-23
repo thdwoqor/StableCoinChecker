@@ -12,7 +12,7 @@ resource "aws_codedeploy_deployment_group" "this" {
     ec2_tag_filter {
       key   = "Name"
       type  = "KEY_AND_VALUE"
-      value = "after"
+      value = "after-2"
     }
   }
   auto_rollback_configuration {

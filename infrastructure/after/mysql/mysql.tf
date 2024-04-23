@@ -2,20 +2,17 @@ resource "aws_instance" "mysql" {
   ami                         = "ami-02c956980e9e063e5"
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-  key_name                    = var.project_name
-  subnet_id                   = module.vpc.private_subnets[0]
+  key_name                    = var.key_name
+  subnet_id                   = data.terraform_remote_state.vpc.outputs.private_subnet_id[0]
   vpc_security_group_ids      = [aws_security_group.mysql.id]
-  user_data                   = file("./launch-mysql-instance.sh")
+  user_data                   = file("./launch-instance.sh")
   iam_instance_profile        = aws_iam_instance_profile.mysql.name
-  tags                        = {
-    Terraform = "true"
-    Name      = "after-mysql"
-  }
+  tags                        = var.tags
 }
 
 resource "aws_security_group" "mysql" {
   name   = var.ec2_mysql_name
-  vpc_id = module.vpc.vpc_id
+  vpc_id = data.terraform_remote_state.vpc.outputs.vpc_id
 }
 
 resource "aws_security_group_rule" "mysql_default" {
@@ -71,9 +68,4 @@ resource "aws_iam_role" "mysql" {
       }
     ]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "mysql" {
-  policy_arn = aws_iam_policy.s3.arn
-  role       = aws_iam_role.mysql.name
 }
