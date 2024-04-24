@@ -21,10 +21,12 @@ public class KorbitStableCoinTickerProvider implements StableCoinTickerProvider 
         List<StableCoinTickerResponse> responses = new ArrayList<>();
         for (KorbitStableCoinSymbol value : KorbitStableCoinSymbol.values()) {
             try {
+                System.out.println("KORBIT RUN");
                 KorbitTickerResponse response = korbitClient.getTicker(value.getName(), "krw");
                 responses.add(response.toStableCoinTicker(value));
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("ERROR");
+                System.out.println(e.getMessage());
             }
         }
         return responses;
