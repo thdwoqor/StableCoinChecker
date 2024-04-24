@@ -9,7 +9,6 @@ import org.example.stablecoinchecker.infra.cex.korbit.dto.KorbitTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-@Service
 @Order(4)
 @RequiredArgsConstructor
 public class KorbitStableCoinTickerProvider implements StableCoinTickerProvider {
