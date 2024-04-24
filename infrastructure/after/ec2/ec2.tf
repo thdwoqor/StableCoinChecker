@@ -1,6 +1,6 @@
 resource "aws_instance" "prod" {
   ami                         = "ami-02c956980e9e063e5"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.small"
   associate_public_ip_address = true
   key_name                    = var.key_name
   subnet_id                   = data.terraform_remote_state.vpc.outputs.public_subnet_id[0]
