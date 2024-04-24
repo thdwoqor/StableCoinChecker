@@ -8,7 +8,6 @@ import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
 import org.example.stablecoinchecker.infra.cex.gopax.dto.GopaxTickerResponse;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class GopaxTickerProvider implements StableCoinTickerProvider {
 
