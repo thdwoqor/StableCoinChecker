@@ -8,6 +8,7 @@ import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
 import org.example.stablecoinchecker.infra.cex.korbit.dto.KorbitTickerResponse;
 import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 public class KorbitTickerProvider implements StableCoinTickerProvider {
 
@@ -17,8 +18,11 @@ public class KorbitTickerProvider implements StableCoinTickerProvider {
     public List<StableCoinTicker> getStableCoin() {
         List<StableCoinTicker> responses = new ArrayList<>();
         for (KorbitStableCoin value : KorbitStableCoin.values()) {
-            KorbitTickerResponse response = korbitClient.getTicker(value.getName(), "krw");
-            responses.add(response.toStableCoinTicker(value));
+            try {
+                KorbitTickerResponse response = korbitClient.getTicker(value.getName(), "krw");
+                responses.add(response.toStableCoinTicker(value));
+            } catch (Exception e) {
+            }
         }
         return responses;
     }
