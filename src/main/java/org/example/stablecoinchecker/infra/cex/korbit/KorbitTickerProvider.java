@@ -8,7 +8,6 @@ import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
 import org.example.stablecoinchecker.infra.cex.korbit.dto.KorbitTickerResponse;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class KorbitTickerProvider implements StableCoinTickerProvider {
 
