@@ -23,7 +23,7 @@ class StableCoinTest {
         );
 
         Assertions.assertThat(stableCoin.calculateKimchiPremium()).isEqualTo(
-                new BigDecimal(kimchiPremium)
+                Double.valueOf(kimchiPremium)
         );
     }
 }
