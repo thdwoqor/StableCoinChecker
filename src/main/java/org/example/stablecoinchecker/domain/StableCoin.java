@@ -1,24 +1,45 @@
 package org.example.stablecoinchecker.domain;
 
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.example.stablecoinchecker.infra.cex.CryptocurrencyExchange;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class StableCoin {
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class StableCoin extends BaseEntity {
 
-    private final BigDecimal exchangeRate;
-    private final CryptocurrencyExchange cryptocurrencyExchange;
-    private final BigDecimal price;
-    private final String symbol;
+    private BigDecimal exchangeRate;
+    @Enumerated(value = EnumType.STRING)
+    private CryptocurrencyExchange cryptocurrencyExchange;
+    @Enumerated(value = EnumType.STRING)
+    private Symbol symbol;
+    @Embedded
+    private Ticker ticker;
+
+    public StableCoin(final BigDecimal exchangeRate, final CryptocurrencyExchange cryptocurrencyExchange,
+                      final Symbol symbol,
+                      final Ticker ticker) {
+        this.exchangeRate = exchangeRate;
+        this.cryptocurrencyExchange = cryptocurrencyExchange;
+        this.symbol = symbol;
+        this.ticker = ticker;
+    }
 
     public BigDecimal calculateKimchiPremium() {
-        return price.divide(exchangeRate, 3, RoundingMode.HALF_DOWN)
+        return ticker.getCurrentPrice().divide(exchangeRate, 3, RoundingMode.HALF_DOWN)
                 .subtract(BigDecimal.ONE)
                 .multiply(new BigDecimal("100"))
                 .setScale(1);
+    }
+
+    public BigDecimal getCurrentPrice() {
+        return ticker.getCurrentPrice();
     }
 }

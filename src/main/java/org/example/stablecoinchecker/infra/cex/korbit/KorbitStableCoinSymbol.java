@@ -3,12 +3,12 @@ package org.example.stablecoinchecker.infra.cex.korbit;
 import lombok.Getter;
 
 @Getter
-public enum KorbitStableCoin {
+public enum KorbitStableCoinSymbol {
     USDT("usdt");
 
     private final String name;
 
-    KorbitStableCoin(final String name) {
+    KorbitStableCoinSymbol(final String name) {
         this.name = name;
     }
 }

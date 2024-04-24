@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface StableCoinTickerProvider {
 
-    List<StableCoinTicker> getStableCoin();
+    List<StableCoinTickerResponse> getStableCoinTickers();
 }

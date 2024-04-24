@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.infra.cex;
+package org.example.stablecoinchecker.domain;
 
 public enum CryptocurrencyExchange {
     UPBIT,
@@ -6,4 +6,6 @@ public enum CryptocurrencyExchange {
     COINONE,
     KORBIT,
     GOPAX
+
+
 }

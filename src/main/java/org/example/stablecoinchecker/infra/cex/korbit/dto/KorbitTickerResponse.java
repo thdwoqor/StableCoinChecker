@@ -1,8 +1,7 @@
 package org.example.stablecoinchecker.infra.cex.korbit.dto;
 
-import org.example.stablecoinchecker.infra.cex.CryptocurrencyExchange;
-import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
-import org.example.stablecoinchecker.infra.cex.korbit.KorbitStableCoin;
+import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
+import org.example.stablecoinchecker.infra.cex.korbit.KorbitStableCoinSymbol;
 
 public record KorbitTickerResponse(
         String last,
@@ -10,9 +9,9 @@ public record KorbitTickerResponse(
         String low,
         String high
 ) {
-    public StableCoinTicker toStableCoinTicker(KorbitStableCoin symbol) {
-        return new StableCoinTicker(
-                CryptocurrencyExchange.KORBIT,
+    public StableCoinTickerResponse toStableCoinTicker(KorbitStableCoinSymbol symbol) {
+        return new StableCoinTickerResponse(
+                "KORBIT",
                 symbol.getName().toUpperCase(),
                 last,
                 open,

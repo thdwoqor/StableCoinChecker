@@ -1,8 +1,7 @@
 package org.example.stablecoinchecker.infra.cex.gopax.dto;
 
-import org.example.stablecoinchecker.infra.cex.CryptocurrencyExchange;
-import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
-import org.example.stablecoinchecker.infra.cex.gopax.GopaxStableCoin;
+import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
+import org.example.stablecoinchecker.infra.cex.gopax.GopaxStableCoinSymbol;
 
 public record GopaxTickerResponse(
         String close,
@@ -11,9 +10,9 @@ public record GopaxTickerResponse(
         String high
 ) {
 
-    public StableCoinTicker toStableCoinTicker(GopaxStableCoin symbol) {
-        return new StableCoinTicker(
-                CryptocurrencyExchange.GOPAX,
+    public StableCoinTickerResponse toStableCoinTicker(GopaxStableCoinSymbol symbol) {
+        return new StableCoinTickerResponse(
+                "GOPAX",
                 symbol.getName().toUpperCase(),
                 close,
                 open,
