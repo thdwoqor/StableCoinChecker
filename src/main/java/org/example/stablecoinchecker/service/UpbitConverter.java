@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UpbitService {
+public class UpbitConverter {
 
     private final UpbitClient upbitClient;
     private final BithumbClient bithumbClient;
