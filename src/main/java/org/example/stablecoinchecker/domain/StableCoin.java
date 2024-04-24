@@ -32,14 +32,15 @@ public class StableCoin extends BaseEntity {
         this.ticker = ticker;
     }
 
-    public BigDecimal calculateKimchiPremium() {
+    public double calculateKimchiPremium() {
         return ticker.getCurrentPrice().divide(exchangeRate, 3, RoundingMode.HALF_DOWN)
                 .subtract(BigDecimal.ONE)
                 .multiply(new BigDecimal("100"))
-                .setScale(1);
+                .setScale(1)
+                .doubleValue();
     }
 
-    public BigDecimal getCurrentPrice() {
-        return ticker.getCurrentPrice();
+    public int getCurrentPrice() {
+        return ticker.getCurrentPrice().intValue();
     }
 }
