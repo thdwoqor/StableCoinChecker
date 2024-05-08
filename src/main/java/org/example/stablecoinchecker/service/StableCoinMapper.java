@@ -1,9 +1,7 @@
 package org.example.stablecoinchecker.service;
 
 import java.math.BigDecimal;
-import org.example.stablecoinchecker.domain.CryptocurrencyExchange;
 import org.example.stablecoinchecker.domain.StableCoin;
-import org.example.stablecoinchecker.domain.Symbol;
 import org.example.stablecoinchecker.domain.Ticker;
 import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
 
@@ -19,8 +17,8 @@ public class StableCoinMapper {
 
         return new StableCoin(
                 new BigDecimal(String.valueOf(exchangeRate)),
-                CryptocurrencyExchange.valueOf(response.cex().toUpperCase()),
-                Symbol.valueOf(response.symbol().toUpperCase()),
+                response.cex(),
+                response.symbol(),
                 ticker
         );
     }

@@ -12,8 +12,8 @@ class StableCoinTest {
     void 김프를_계산할_수_있다(String exchangeRate, String price, String kimchiPremium) {
         StableCoin stableCoin = new StableCoin(
                 new BigDecimal(exchangeRate),
-                CryptocurrencyExchange.UPBIT,
-                Symbol.USDT,
+                "UPBIT",
+                "USDT",
                 new Ticker(
                         new BigDecimal(price),
                         new BigDecimal(price),

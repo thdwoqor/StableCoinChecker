@@ -2,8 +2,6 @@ package org.example.stablecoinchecker.domain;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import lombok.AccessLevel;
@@ -16,19 +14,20 @@ import lombok.NoArgsConstructor;
 public class StableCoin extends BaseEntity {
 
     private BigDecimal exchangeRate;
-    @Enumerated(value = EnumType.STRING)
-    private CryptocurrencyExchange cryptocurrencyExchange;
-    @Enumerated(value = EnumType.STRING)
-    private Symbol symbol;
+    private String cryptocurrencyExchange;
+    private String symbol;
     @Embedded
     private Ticker ticker;
 
-    public StableCoin(final BigDecimal exchangeRate, final CryptocurrencyExchange cryptocurrencyExchange,
-                      final Symbol symbol,
-                      final Ticker ticker) {
+    public StableCoin(
+            final BigDecimal exchangeRate,
+            final String cryptocurrencyExchange,
+            final String symbol,
+            final Ticker ticker
+    ) {
         this.exchangeRate = exchangeRate;
-        this.cryptocurrencyExchange = cryptocurrencyExchange;
-        this.symbol = symbol;
+        this.cryptocurrencyExchange = cryptocurrencyExchange.toUpperCase();
+        this.symbol = symbol.toUpperCase();
         this.ticker = ticker;
     }
 
