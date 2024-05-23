@@ -42,7 +42,7 @@ public class MessageFormatter {
     private static String formatStableCoinPriceMessage(final StableCoin stableCoinData) {
         return String.format(
                 "%-8s(%s) : %,d원(%.1f%%)\n",
-                stableCoinData.getCryptocurrencyExchange(),
+                stableCoinData.getCex(),
                 stableCoinData.getSymbol(),
                 stableCoinData.getCurrentPrice(),
                 stableCoinData.calculateKimchiPremium());
