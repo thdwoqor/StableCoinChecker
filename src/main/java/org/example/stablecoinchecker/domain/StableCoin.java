@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "new_stable_coin")
+@Table(name = "stable_coin")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StableCoin extends BaseEntity {
 
