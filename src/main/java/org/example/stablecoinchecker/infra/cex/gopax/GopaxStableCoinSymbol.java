@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum GopaxStableCoinSymbol {
-    USDC("USDC");
+    USDT("USDT");
 
     private final String name;
 
