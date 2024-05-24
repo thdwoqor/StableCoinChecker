@@ -17,7 +17,8 @@ public record CoinoneTickerResponse(
                 tickers.get(0).last(),
                 tickers.get(0).first(),
                 tickers.get(0).low(),
-                tickers.get(0).high()
+                tickers.get(0).high(),
+                tickers.get(0).targetVolume()
         );
     }
 }

@@ -7,7 +7,8 @@ public record GopaxTickerResponse(
         String close,
         String open,
         String low,
-        String high
+        String high,
+        String volume
 ) {
 
     public StableCoinTickerResponse toStableCoinTicker(GopaxStableCoinSymbol symbol) {
@@ -17,7 +18,8 @@ public record GopaxTickerResponse(
                 close,
                 open,
                 low,
-                high
+                high,
+                volume
         );
     }
 }

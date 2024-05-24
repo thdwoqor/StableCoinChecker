@@ -11,6 +11,8 @@ public record Data(
         @JsonProperty("min_price")
         String minPrice,
         @JsonProperty("max_price")
-        String maxPrice
+        String maxPrice,
+        @JsonProperty("units_traded")
+        String unitsTraded
 ) {
 }

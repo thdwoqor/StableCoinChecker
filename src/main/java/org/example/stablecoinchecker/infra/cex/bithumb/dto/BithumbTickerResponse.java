@@ -15,7 +15,8 @@ public record BithumbTickerResponse(
                 data.closingPrice(),
                 data.openingPrice(),
                 data.minPrice(),
-                data.maxPrice()
+                data.maxPrice(),
+                data.unitsTraded()
         );
     }
 }

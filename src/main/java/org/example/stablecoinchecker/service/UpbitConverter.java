@@ -29,7 +29,8 @@ public class UpbitConverter {
                 upbitUSDT.toString(),
                 upbitUSDT.toString(),
                 upbitUSDT.toString(),
-                upbitUSDT.toString()
+                upbitUSDT.toString(),
+                BigDecimal.ONE.toString()
         );
 
         return StableCoinMapper.toStableCoin(

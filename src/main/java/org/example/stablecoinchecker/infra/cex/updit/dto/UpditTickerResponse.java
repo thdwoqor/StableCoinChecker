@@ -10,6 +10,9 @@ public record UpditTickerResponse(
         @JsonProperty("low_price")
         double lowPrice,
         @JsonProperty("high_price")
-        double highPrice
+        double highPrice,
+        @JsonProperty("acc_trade_volume")
+        double accTradeVolume
+
 ) {
 }

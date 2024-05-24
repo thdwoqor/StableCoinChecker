@@ -1,8 +1,6 @@
 package org.example.stablecoinchecker.domain;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,12 +16,15 @@ public class Ticker {
     private BigDecimal open;
     private BigDecimal low;
     private BigDecimal high;
+    private BigDecimal volume;
 
     @Builder
-    public Ticker(final BigDecimal currentPrice, final BigDecimal open, final BigDecimal low, final BigDecimal high) {
+    public Ticker(final BigDecimal currentPrice, final BigDecimal open, final BigDecimal low, final BigDecimal high,
+                  final BigDecimal volume) {
         this.currentPrice = currentPrice;
         this.open = open;
         this.low = low;
         this.high = high;
+        this.volume = volume;
     }
 }

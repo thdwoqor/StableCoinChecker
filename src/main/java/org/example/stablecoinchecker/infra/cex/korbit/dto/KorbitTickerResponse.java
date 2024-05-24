@@ -7,7 +7,8 @@ public record KorbitTickerResponse(
         String last,
         String open,
         String low,
-        String high
+        String high,
+        String volume
 ) {
     public StableCoinTickerResponse toStableCoinTicker(KorbitStableCoinSymbol symbol) {
         return new StableCoinTickerResponse(
@@ -16,7 +17,8 @@ public record KorbitTickerResponse(
                 last,
                 open,
                 low,
-                high
+                high,
+                volume
         );
     }
 }

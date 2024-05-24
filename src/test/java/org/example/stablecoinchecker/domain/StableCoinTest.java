@@ -18,7 +18,8 @@ class StableCoinTest {
                         new BigDecimal(price),
                         new BigDecimal(price),
                         new BigDecimal(price),
-                        new BigDecimal(price)
+                        new BigDecimal(price),
+                        BigDecimal.ONE
                 )
         );
 

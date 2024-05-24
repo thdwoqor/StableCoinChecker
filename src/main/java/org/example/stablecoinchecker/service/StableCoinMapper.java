@@ -13,6 +13,7 @@ public class StableCoinMapper {
                 .open(new BigDecimal(response.open()))
                 .low(new BigDecimal(response.low()))
                 .high(new BigDecimal(response.high()))
+                .volume(new BigDecimal(response.volume()))
                 .build();
 
         return new StableCoin(

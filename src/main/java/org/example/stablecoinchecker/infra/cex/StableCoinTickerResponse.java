@@ -6,6 +6,7 @@ public record StableCoinTickerResponse(
         String close,
         String open,
         String low,
-        String high
+        String high,
+        String volume
 ) {
 }
