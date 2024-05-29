@@ -9,9 +9,9 @@ public record KorbitTickerResponse(
         String high,
         String volume
 ) {
-    public TickerResponse toTickerResponse(final String exchangeName, final String orderCurrency) {
+    public TickerResponse toTickerResponse(final String cex, final String orderCurrency) {
         return new TickerResponse(
-                exchangeName,
+                cex,
                 orderCurrency.toUpperCase(),
                 last,
                 open,

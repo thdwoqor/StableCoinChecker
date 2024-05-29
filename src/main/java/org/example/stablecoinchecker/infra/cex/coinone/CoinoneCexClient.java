@@ -5,10 +5,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.stablecoinchecker.infra.cex.CryptoPairs;
-import org.example.stablecoinchecker.infra.cex.ExchangeClient;
+import org.example.stablecoinchecker.infra.cex.CexClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.infra.cex.coinone.dto.CoinoneTickerResponse;
-import org.example.stablecoinchecker.infra.cex.gopax.GopaxCryptoPairs;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Order(3)
 @RequiredArgsConstructor
-public class CoinoneExchangeClient implements ExchangeClient {
+public class CoinoneCexClient implements CexClient {
 
     private static final String COINONE = "COINONE";
     private final CoinoneClient coinoneClient;

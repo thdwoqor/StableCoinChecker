@@ -9,9 +9,9 @@ public record CoinoneTickerResponse(
         List<Ticker> tickers
 ) {
 
-    public TickerResponse toStableCoinTicker(final String exchangeName,final String orderCurrency) {
+    public TickerResponse toStableCoinTicker(final String cex,final String orderCurrency) {
         return new TickerResponse(
-                exchangeName,
+                cex,
                 orderCurrency.toUpperCase(),
                 tickers.get(0).last(),
                 tickers.get(0).first(),

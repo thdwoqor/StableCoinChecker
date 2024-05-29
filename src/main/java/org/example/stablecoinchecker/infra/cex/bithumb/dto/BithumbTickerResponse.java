@@ -7,9 +7,9 @@ public record BithumbTickerResponse(
         Data data
 ) {
 
-    public TickerResponse toStableCoinTicker(final String exchangeName, final String orderCurrency) {
+    public TickerResponse toStableCoinTicker(final String cex, final String orderCurrency) {
         return new TickerResponse(
-                exchangeName,
+                cex,
                 orderCurrency.toUpperCase(),
                 data.closingPrice(),
                 data.openingPrice(),

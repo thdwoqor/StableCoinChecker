@@ -1,22 +1,19 @@
 package org.example.stablecoinchecker.infra.cex.bithumb;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.stablecoinchecker.infra.cex.CryptoPairs;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
-import org.example.stablecoinchecker.infra.cex.ExchangeClient;
+import org.example.stablecoinchecker.infra.cex.CexClient;
 import org.example.stablecoinchecker.infra.cex.bithumb.dto.BithumbTickerResponse;
-import org.example.stablecoinchecker.infra.cex.gopax.GopaxCryptoPairs;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 @Service
 @Order(2)
 @RequiredArgsConstructor
-public class BithumbExchangeClient implements ExchangeClient {
+public class BithumbCexClient implements CexClient {
 
     private static final String BITHUMB = "BITHUMB";
     private final BithumbClient bithumbClient;

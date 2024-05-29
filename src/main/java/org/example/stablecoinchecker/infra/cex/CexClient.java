@@ -2,7 +2,7 @@ package org.example.stablecoinchecker.infra.cex;
 
 import java.util.List;
 
-public interface ExchangeClient {
+public interface CexClient {
 
     TickerResponse getTickers(String orderCurrency, String paymentCurrency);
 

@@ -10,9 +10,9 @@ public record GopaxTickerResponse(
         String volume
 ) {
 
-    public TickerResponse toStableCoinTicker(final String exchangeName, final String orderCurrency) {
+    public TickerResponse toStableCoinTicker(final String cex, final String orderCurrency) {
         return new TickerResponse(
-                exchangeName,
+                cex,
                 orderCurrency.toUpperCase(),
                 close,
                 open,
