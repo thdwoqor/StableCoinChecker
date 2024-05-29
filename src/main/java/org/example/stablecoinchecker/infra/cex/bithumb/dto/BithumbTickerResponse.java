@@ -1,17 +1,16 @@
 package org.example.stablecoinchecker.infra.cex.bithumb.dto;
 
-import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
-import org.example.stablecoinchecker.infra.cex.bithumb.BithumbStableCoinSymbol;
+import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record BithumbTickerResponse(
         String status,
         Data data
 ) {
 
-    public StableCoinTickerResponse toStableCoinTicker(BithumbStableCoinSymbol symbol) {
-        return new StableCoinTickerResponse(
-                "BITHUMB",
-                symbol.getName().toUpperCase(),
+    public TickerResponse toStableCoinTicker(final String exchangeName, final String orderCurrency) {
+        return new TickerResponse(
+                exchangeName,
+                orderCurrency.toUpperCase(),
                 data.closingPrice(),
                 data.openingPrice(),
                 data.minPrice(),

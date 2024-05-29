@@ -1,8 +1,7 @@
 package org.example.stablecoinchecker.infra.cex.coinone.dto;
 
 import java.util.List;
-import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
-import org.example.stablecoinchecker.infra.cex.coinone.CoinoneStableCoinSymbol;
+import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record CoinoneTickerResponse(
         String result,
@@ -10,10 +9,10 @@ public record CoinoneTickerResponse(
         List<Ticker> tickers
 ) {
 
-    public StableCoinTickerResponse toStableCoinTicker(CoinoneStableCoinSymbol symbol) {
-        return new StableCoinTickerResponse(
-                "COINONE",
-                symbol.getName().toUpperCase(),
+    public TickerResponse toStableCoinTicker(final String exchangeName,final String orderCurrency) {
+        return new TickerResponse(
+                exchangeName,
+                orderCurrency.toUpperCase(),
                 tickers.get(0).last(),
                 tickers.get(0).first(),
                 tickers.get(0).low(),

@@ -1,13 +1,13 @@
-package org.example.stablecoinchecker.service;
+package org.example.stablecoinchecker.service.dto;
 
 import java.math.BigDecimal;
 import org.example.stablecoinchecker.domain.StableCoin;
 import org.example.stablecoinchecker.domain.Ticker;
-import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
+import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public class StableCoinMapper {
 
-    public static StableCoin toStableCoin(final StableCoinTickerResponse response, final BigDecimal exchangeRate) {
+    public static StableCoin toStableCoin(final TickerResponse response, final BigDecimal exchangeRate) {
         Ticker ticker = Ticker.builder()
                 .currentPrice(new BigDecimal(response.close()))
                 .open(new BigDecimal(response.open()))

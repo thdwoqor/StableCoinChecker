@@ -1,7 +1,6 @@
 package org.example.stablecoinchecker.infra.cex.gopax.dto;
 
-import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
-import org.example.stablecoinchecker.infra.cex.gopax.GopaxStableCoinSymbol;
+import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record GopaxTickerResponse(
         String close,
@@ -11,10 +10,10 @@ public record GopaxTickerResponse(
         String volume
 ) {
 
-    public StableCoinTickerResponse toStableCoinTicker(GopaxStableCoinSymbol symbol) {
-        return new StableCoinTickerResponse(
-                "GOPAX",
-                symbol.getName().toUpperCase(),
+    public TickerResponse toStableCoinTicker(final String exchangeName, final String orderCurrency) {
+        return new TickerResponse(
+                exchangeName,
+                orderCurrency.toUpperCase(),
                 close,
                 open,
                 low,

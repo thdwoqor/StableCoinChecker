@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.StableCoin;
-import org.example.stablecoinchecker.infra.cex.StableCoinTickerResponse;
+import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.infra.cex.bithumb.BithumbClient;
 import org.example.stablecoinchecker.infra.cex.updit.UpbitClient;
+import org.example.stablecoinchecker.service.dto.StableCoinMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class UpbitConverter {
         BigDecimal upbitUSDT = upbitBTC.multiply(bithumbUSDT)
                 .divide(bithumbBTC, 1, RoundingMode.HALF_DOWN);
 
-        StableCoinTickerResponse stableCoinTickerResponse = new StableCoinTickerResponse(
+        TickerResponse tickerResponse = new TickerResponse(
                 "UPBIT",
                 "USDT",
                 upbitUSDT.toString(),
@@ -34,7 +35,7 @@ public class UpbitConverter {
         );
 
         return StableCoinMapper.toStableCoin(
-                stableCoinTickerResponse,
+                tickerResponse,
                 exchangeRate
         );
     }
