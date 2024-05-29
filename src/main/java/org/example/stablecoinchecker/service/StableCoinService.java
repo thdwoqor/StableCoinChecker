@@ -1,15 +1,19 @@
 package org.example.stablecoinchecker.service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.stablecoinchecker.controller.StableCoinResponse;
 import org.example.stablecoinchecker.domain.StableCoin;
-import org.example.stablecoinchecker.infra.cex.CryptoPairs;
+import org.example.stablecoinchecker.domain.StableCoinRepository;
 import org.example.stablecoinchecker.infra.cex.CexClient;
+import org.example.stablecoinchecker.infra.cex.CryptoPairs;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.service.dto.StableCoinMapper;
+import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class StableCoinService {
 
     private final List<CexClient> cexClients;
+    private final StableCoinRepository repository;
 
     public List<StableCoin> findStableCoin(final BigDecimal exchangeRate) {
         ArrayList<StableCoin> coins = new ArrayList<>();
@@ -35,5 +40,19 @@ public class StableCoinService {
             }
         }
         return coins;
+    }
+
+    public List<StableCoinResponse> findArea(
+            String cex,
+            String symbol
+    ) {
+        List<StableCoin> search = repository.search(new StableCoinSearchCondition(
+                cex, symbol,
+                900L,
+                1000L,
+                Instant.now().toEpochMilli()
+        ));
+
+        return search.stream().map(StableCoinResponse::of).toList();
     }
 }
