@@ -10,9 +10,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                .allowCredentials(true);
-        WebMvcConfigurer.super.addCorsMappings(registry);
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOriginPatterns("*")
+                .exposedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
