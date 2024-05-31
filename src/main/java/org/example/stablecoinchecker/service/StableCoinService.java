@@ -1,7 +1,6 @@
 package org.example.stablecoinchecker.service;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -43,14 +42,17 @@ public class StableCoinService {
     }
 
     public List<StableCoinResponse> findArea(
-            String cex,
-            String symbol
+            final String cex,
+            final String symbol,
+            final Long interval,
+            final Long limit,
+            final Long to
     ) {
         List<StableCoin> search = repository.search(new StableCoinSearchCondition(
                 cex, symbol,
-                900L,
-                1000L,
-                Instant.now().toEpochMilli()
+                interval,
+                limit,
+                to
         ));
 
         return search.stream().map(StableCoinResponse::of).toList();

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.service.StableCoinService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +17,11 @@ public class StableCoinController {
     @GetMapping("/area")
     public ResponseEntity<List<StableCoinResponse>> findArea(
             @RequestParam("cex") String cex,
-            @RequestParam("symbol") String symbol
+            @RequestParam("symbol") String symbol,
+            @RequestParam("interval") Long interval,
+            @RequestParam("limit") Long limit,
+            @RequestParam("to") Long to
     ) {
-        return ResponseEntity.ok(service.findArea(cex, symbol));
+        return ResponseEntity.ok(service.findArea(cex, symbol, interval, limit, to));
     }
 }
