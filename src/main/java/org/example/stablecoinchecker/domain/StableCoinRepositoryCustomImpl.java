@@ -26,7 +26,7 @@ public class StableCoinRepositoryCustomImpl implements StableCoinRepositoryCusto
                         createdAtLoe(condition)
                 )
                 .limit(getCondition(condition))
-                .orderBy(stableCoin.createdAt.asc())
+                .orderBy(stableCoin.createdAt.desc())
                 .fetch();
     }
 
