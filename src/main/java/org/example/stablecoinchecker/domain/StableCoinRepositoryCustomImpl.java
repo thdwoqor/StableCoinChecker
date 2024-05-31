@@ -4,6 +4,7 @@ import static org.example.stablecoinchecker.domain.QStableCoin.stableCoin;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Comparator;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;
@@ -18,7 +19,7 @@ public class StableCoinRepositoryCustomImpl implements StableCoinRepositoryCusto
 
     @Override
     public List<StableCoin> search(final StableCoinSearchCondition condition) {
-        return jpaQueryFactory.selectFrom(stableCoin)
+        List<StableCoin> result = jpaQueryFactory.selectFrom(stableCoin)
                 .where(
                         createdAtMod(condition),
                         symbolEq(condition),
@@ -28,6 +29,9 @@ public class StableCoinRepositoryCustomImpl implements StableCoinRepositoryCusto
                 .limit(getCondition(condition))
                 .orderBy(stableCoin.createdAt.desc())
                 .fetch();
+
+        result.sort(Comparator.comparing(StableCoin::getCreatedAt));
+        return result;
     }
 
     private static BooleanExpression cryptocurrencyExchangeEq(final StableCoinSearchCondition condition) {
