@@ -1,0 +1,19 @@
+telegram:
+  chatId: "chatId"
+  token: "token"
+schedule:
+  cron: 0 */5 * * * *
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        ddl-auto: create
+        use_sql_comments: false
+  lifecycle:
+    timeout-per-shutdown-phase: 4m
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
