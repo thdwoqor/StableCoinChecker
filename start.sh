@@ -17,6 +17,10 @@ do
     echo "새로운 어플리케이션을 실행 중입니다.";
 done
 
+echo "set \$service_url http://localhost:$green};" | sudo tee /etc/nginx/conf.d/service-url.inc
+
+sudo nginx -s reload;
+
 if [ -n "$(lsof -ti:$blue)" ]; then
   kill -15 $(lsof -ti:$blue)
 fi

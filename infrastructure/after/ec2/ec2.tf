@@ -26,10 +26,10 @@ resource "aws_security_group_rule" "prod_ssh" {
   lifecycle { create_before_destroy = true }
 }
 
-resource "aws_security_group_rule" "prod_blue" {
+resource "aws_security_group_rule" "http" {
   type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
+  from_port         = 80
+  to_port           = 80
   protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.prod.id
@@ -37,10 +37,10 @@ resource "aws_security_group_rule" "prod_blue" {
   lifecycle { create_before_destroy = true }
 }
 
-resource "aws_security_group_rule" "prod_green" {
+resource "aws_security_group_rule" "https" {
   type              = "ingress"
-  from_port         = 8081
-  to_port           = 8081
+  from_port         = 443
+  to_port           = 443
   protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.prod.id
