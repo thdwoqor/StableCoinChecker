@@ -17,7 +17,7 @@ do
     echo "새로운 어플리케이션을 실행 중입니다.";
 done
 
-echo "set \$service_url http://127.0.0.1:$green;" | sudo tee /etc/nginx/conf.d/service_url.inc
+echo "set \$service_url http://127.0.0.1:$green;" | sudo tee /etc/nginx/conf.d/service-url.inc
 
 sudo nginx -s reload;
 
