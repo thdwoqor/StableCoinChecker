@@ -21,7 +21,6 @@ public class MessageDeliveryService {
     private final TelegramClient telegramClient;
     private final ExchangeRateService exchangeRateService;
     private final StableCoinService stableCoinService;
-    private final UpbitService upbitService;
 
     @Scheduled(cron = "${schedule.cron}")
     public void sendMessage() {
@@ -34,10 +33,11 @@ public class MessageDeliveryService {
     private TelegramResponse toTelegramResponse() {
         BigDecimal exchangeRate = exchangeRateService.getExchangeRate();
 
-        return TelegramResponse.of(List.of(
+        TelegramResponse telegramResponse = TelegramResponse.of(List.of(
                 Message.createExchangeRateMessage(exchangeRate),
-                Message.createConvertedUsdtPriceMessage(upbitService.convertBtcToUsdt(exchangeRate)),
                 Message.createStableCoinPricesMessage(stableCoinService.findStableCoin(exchangeRate))
         ));
+
+        return telegramResponse;
     }
 }

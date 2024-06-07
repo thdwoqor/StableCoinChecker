@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
 import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
 import org.example.stablecoinchecker.infra.cex.coinone.dto.CoinoneTickerResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
+@Order(3)
 @Service
 @RequiredArgsConstructor
 public class CoinoneTickerProvider implements StableCoinTickerProvider {

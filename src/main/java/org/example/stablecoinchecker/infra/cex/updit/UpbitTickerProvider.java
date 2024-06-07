@@ -1,28 +1,28 @@
-package org.example.stablecoinchecker.infra.cex.korbit;
+package org.example.stablecoinchecker.infra.cex.updit;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
 import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
-import org.example.stablecoinchecker.infra.cex.korbit.dto.KorbitTickerResponse;
+import org.example.stablecoinchecker.infra.cex.updit.dto.UpditTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-@Order(4)
+@Order(1)
 @Service
 @RequiredArgsConstructor
-public class KorbitTickerProvider implements StableCoinTickerProvider {
+public class UpbitTickerProvider implements StableCoinTickerProvider {
 
-    private final KorbitClient korbitClient;
+    private final UpbitClient upbitClient;
 
     @Override
     public List<StableCoinTicker> getStableCoin() {
         List<StableCoinTicker> responses = new ArrayList<>();
-        for (KorbitStableCoin value : KorbitStableCoin.values()) {
+        for (UpbitStableCoin value : UpbitStableCoin.values()) {
             try {
-                KorbitTickerResponse response = korbitClient.getTicker(value.getName(), "krw");
-                responses.add(response.toStableCoinTicker(value));
+                List<UpditTickerResponse> response = upbitClient.getTicker(value.getName(), "KRW");
+                responses.add(response.get(0).toStableCoinTicker(value));
             } catch (Exception e) {
             }
         }
