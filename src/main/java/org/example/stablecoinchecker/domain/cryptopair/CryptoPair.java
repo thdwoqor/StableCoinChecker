@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.cryptopair;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +8,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.stablecoinchecker.domain.BaseEntity;
+import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbol;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 
 @Getter
@@ -23,16 +25,20 @@ public class CryptoPair extends BaseEntity {
 
     public CryptoPair(
             final CryptoExchange cryptoExchange,
-            final CryptoSymbol cryptoSymbol
+            final CryptoSymbol cryptoSymbol,
+            final DuplicateCryptoPairValidator validator
     ) {
+        validator.validate(cryptoExchange, cryptoSymbol);
         this.cryptoExchange = cryptoExchange;
         this.cryptoSymbol = cryptoSymbol;
     }
 
-    public void edit(
+    public void update(
             final CryptoExchange cryptoExchange,
-            final CryptoSymbol cryptoSymbol
-    ){
+            final CryptoSymbol cryptoSymbol,
+            final DuplicateCryptoPairValidator validator
+    ) {
+        validator.validate(cryptoExchange, cryptoSymbol);
         this.cryptoExchange = cryptoExchange;
         this.cryptoSymbol = cryptoSymbol;
     }

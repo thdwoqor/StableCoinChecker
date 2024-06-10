@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.stablecoinchecker.domain.BaseEntity;
 
 @Getter
 @Entity

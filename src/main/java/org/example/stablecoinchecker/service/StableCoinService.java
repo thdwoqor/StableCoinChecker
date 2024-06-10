@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.stablecoinchecker.domain.CryptoPair;
-import org.example.stablecoinchecker.domain.StableCoin;
-import org.example.stablecoinchecker.domain.StableCoinRepository;
+import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoinRepository;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
@@ -16,7 +16,6 @@ import org.example.stablecoinchecker.service.dto.StableCoinMapper;
 import org.example.stablecoinchecker.service.dto.StableCoinResponse;
 import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter;
 
 @Slf4j
 @Service

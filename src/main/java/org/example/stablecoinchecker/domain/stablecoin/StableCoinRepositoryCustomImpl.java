@@ -1,6 +1,6 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
-import static org.example.stablecoinchecker.domain.QStableCoin.stableCoin;
+import static org.example.stablecoinchecker.domain.stablecoin.QStableCoin.stableCoin;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.cryptosymbol;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.example.stablecoinchecker.domain.BaseEntity;
 
 @Getter
 @Entity
@@ -17,12 +18,22 @@ public class CryptoSymbol extends BaseEntity {
     private String name;
     private String imgUrl;
 
-    public CryptoSymbol(final String name, final String imgUrl) {
+    public CryptoSymbol(
+            final String name,
+            final String imgUrl,
+            final DuplicateCryptoSymbolValidator validator
+    ) {
+        validator.validate(name);
         this.name = name;
         this.imgUrl = imgUrl;
     }
 
-    public void edit(final String name, final String imgUrl) {
+    public void update(
+            final String name,
+            final String imgUrl,
+            final DuplicateCryptoSymbolValidator validator
+    ) {
+        validator.validate(name);
         this.name = name;
         this.imgUrl = imgUrl;
     }

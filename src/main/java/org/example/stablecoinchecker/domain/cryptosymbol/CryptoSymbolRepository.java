@@ -1,6 +1,5 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.cryptosymbol;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

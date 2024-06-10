@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
 import java.util.List;
 import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;

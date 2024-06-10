@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

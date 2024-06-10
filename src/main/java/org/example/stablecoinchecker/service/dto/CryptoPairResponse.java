@@ -1,6 +1,6 @@
 package org.example.stablecoinchecker.service.dto;
 
-import org.example.stablecoinchecker.domain.CryptoPair;
+import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 
 public record CryptoPairResponse(

@@ -1,12 +1,12 @@
 package org.example.stablecoinchecker.service;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.example.stablecoinchecker.domain.CryptoPair;
-import org.example.stablecoinchecker.domain.CryptoPairRepository;
-import org.example.stablecoinchecker.domain.CryptoSymbol;
-import org.example.stablecoinchecker.domain.CryptoSymbolRepository;
+import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
+import org.example.stablecoinchecker.domain.cryptopair.CryptoPairRepository;
+import org.example.stablecoinchecker.domain.cryptopair.DuplicateCryptoPairValidator;
+import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbol;
+import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolRepository;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.service.dto.CryptoPairRequest;
 import org.example.stablecoinchecker.service.dto.CryptoPairResponse;
@@ -20,6 +20,7 @@ public class CryptoPairService {
 
     private final CryptoPairRepository cryptoPairRepository;
     private final CryptoSymbolRepository cryptoSymbolRepository;
+    private final DuplicateCryptoPairValidator validator;
 
     @Transactional(readOnly = true)
     public List<CryptoPairResponse> findAll() {
@@ -31,8 +32,11 @@ public class CryptoPairService {
 
     public void save(final CryptoPairRequest request) {
         CryptoSymbol cryptoSymbol = cryptoSymbolRepository.getById(request.cryptoSymbolId());
-        validateDuplicateCryptoPair(request, cryptoSymbol);
-        cryptoPairRepository.save(new CryptoPair(request.cryptoExchange(), cryptoSymbol));
+        cryptoPairRepository.save(new CryptoPair(
+                request.cryptoExchange(),
+                cryptoSymbol,
+                validator
+        ));
     }
 
     public List<CryptoPair> findByCryptoExchange(final CryptoExchange cryptoExchange) {
@@ -43,21 +47,11 @@ public class CryptoPairService {
         CryptoPair cryptoPair = cryptoPairRepository.getById(pairId);
         CryptoSymbol cryptoSymbol = cryptoSymbolRepository.getById(request.cryptoSymbolId());
 
-        validateDuplicateCryptoPair(request, cryptoSymbol);
-
-        cryptoPair.edit(
+        cryptoPair.update(
                 request.cryptoExchange(),
-                cryptoSymbol
+                cryptoSymbol,
+                validator
         );
-    }
-
-    private void validateDuplicateCryptoPair(final CryptoPairRequest request, final CryptoSymbol cryptoSymbol) {
-        Optional<CryptoPair> findCryptoPair = cryptoPairRepository.findByCryptoExchangeAndCryptoSymbol(
-                request.cryptoExchange(), cryptoSymbol
-        );
-        if (findCryptoPair.isPresent()) {
-            throw new IllegalArgumentException("중복된 페어는 저장할 수 없습니다.");
-        }
     }
 
     public void delete(final Long pairId) {

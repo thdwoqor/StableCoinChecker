@@ -1,7 +1,9 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
 import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.Ticker;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

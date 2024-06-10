@@ -1,6 +1,6 @@
 package org.example.stablecoinchecker.service.dto;
 
-import org.example.stablecoinchecker.domain.CryptoSymbol;
+import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbol;
 
 public record CryptoSymbolResponse(
         Long id,

@@ -1,9 +1,11 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.example.stablecoinchecker.config.QueryDSLConfig;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.Ticker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

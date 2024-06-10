@@ -1,8 +1,8 @@
 package org.example.stablecoinchecker.service.dto;
 
 import java.math.BigDecimal;
-import org.example.stablecoinchecker.domain.StableCoin;
-import org.example.stablecoinchecker.domain.Ticker;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.Ticker;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public class StableCoinMapper {

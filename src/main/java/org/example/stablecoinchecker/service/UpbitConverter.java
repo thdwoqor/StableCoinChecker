@@ -3,7 +3,7 @@ package org.example.stablecoinchecker.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import lombok.RequiredArgsConstructor;
-import org.example.stablecoinchecker.domain.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.infra.cex.bithumb.BithumbClient;
 import org.example.stablecoinchecker.infra.cex.updit.UpbitClient;

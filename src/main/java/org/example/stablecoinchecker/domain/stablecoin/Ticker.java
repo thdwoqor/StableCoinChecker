@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain;
+package org.example.stablecoinchecker.domain.stablecoin;
 
 import jakarta.persistence.Embeddable;
 import java.math.BigDecimal;

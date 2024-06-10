@@ -3,7 +3,7 @@ package org.example.stablecoinchecker.service.dto;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.Getter;
-import org.example.stablecoinchecker.domain.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
 
 @Getter
 public class MessageFormatter {

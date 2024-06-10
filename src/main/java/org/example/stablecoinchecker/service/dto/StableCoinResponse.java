@@ -1,6 +1,6 @@
 package org.example.stablecoinchecker.service.dto;
 
-import org.example.stablecoinchecker.domain.StableCoin;
+import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
 
 public record StableCoinResponse(
         Long date,
