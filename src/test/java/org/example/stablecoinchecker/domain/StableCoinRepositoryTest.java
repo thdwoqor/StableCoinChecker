@@ -3,12 +3,16 @@ package org.example.stablecoinchecker.domain;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
+import org.example.stablecoinchecker.config.QueryDSLConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
+@DataJpaTest
+@Import(QueryDSLConfig.class)
+@SuppressWarnings("NonAsciiCharacters")
 class StableCoinRepositoryTest {
 
     @Autowired

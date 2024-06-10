@@ -1,5 +1,6 @@
 package org.example.stablecoinchecker.infra.cex.gopax.dto;
 
+import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record GopaxTickerResponse(
@@ -10,9 +11,9 @@ public record GopaxTickerResponse(
         String volume
 ) {
 
-    public TickerResponse toStableCoinTicker(final String cex, final String orderCurrency) {
+    public TickerResponse toStableCoinTicker(final CryptoExchange cryptoExchange, final String orderCurrency) {
         return new TickerResponse(
-                cex,
+                cryptoExchange.name(),
                 orderCurrency.toUpperCase(),
                 close,
                 open,

@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.controller;
+package org.example.stablecoinchecker.service.dto;
 
 import org.example.stablecoinchecker.domain.StableCoin;
 
