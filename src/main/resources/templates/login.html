@@ -3,13 +3,12 @@
 <head>
     <div th:replace="~{fragments/header.html :: fragment-header}"></div>
     <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
 <div class="centered-container">
     <div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
-    <div class="form-signin w-100 m-auto">
+    <div class="w-100 m-auto" style="max-width: 300px;">
         <form id="loginForm">
             <div class="form-floating mb-2">
                 <input type="username" class="form-control" id="floatingUsername" placeholder="Username">

@@ -5,75 +5,75 @@
     <link rel="stylesheet" th:href="@{/css/base.css}">
 </head>
 <body>
-<div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
+<div class="centered-container">
+    <div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
+    <div class="w-100 m-auto" style="max-width: 500px;">
+        <h2 class="pb-2 border-bottom">Pairs</h2>
+        <div class="add-btn mt-4 mb-2">
+            <button type="button" class="btn btn-primary" onclick="showAddModal()">추가
+            </button>
+        </div>
 
-<div class="container" style="max-width: 720px;">
-    <h2 class="pb-2 border-bottom">Pairs</h2>
-    <div class="add-btn mt-4 mb-2">
-        <button type="button" class="btn btn-primary" onclick="showAddModal()">추가
-        </button>
-    </div>
+        <table class="table table-bordered">
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">거래소</th>
+                <th scope="col">심볼</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="table-list">
+            <tr th:each="pair : ${pairs}">
+                <td th:text="${pair.id()}"></td>
+                <td th:text="${pair.cryptoExchange()}"></td>
+                <td th:text="${pair.cryptoSymbol().name()}"></td>
+                <td>
+                    <button class="btn btn-primary" th:onclick="showEditModal([[${pair}]])">수정</button>
 
-    <table class="table table-bordered">
-        <thead class="table-primary">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">거래소</th>
-            <th scope="col">심볼</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody class="table-list">
-        <tr th:each="pair : ${pairs}">
-            <td th:text="${pair.id()}"></td>
-            <td th:text="${pair.cryptoExchange()}"></td>
-            <td th:text="${pair.cryptoSymbol().name()}"></td>
-            <td>
-                <button class="btn btn-primary" th:onclick="showEditModal([[${pair}]])">수정</button>
+                    <button class="btn btn-primary" th:onclick="deleteProduct([[${pair.id}]])">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-                <button class="btn btn-primary" th:onclick="deleteProduct([[${pair.id}]])">삭제</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <div class="modal" data-form-type="add" id="modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" aria-label="Close" onclick="hideAddModal()"></button>
+        <div class="modal" data-form-type="add" id="modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" aria-label="Close" onclick="hideAddModal()"></button>
+                    </div>
+                    <form id="form">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="cryptoExchange" class="form-label">거래소</label>
+                                <select id="cryptoExchange" class="form-select" name="cryptoExchange">
+                                    <option th:each="cryptoExchange : ${cryptoExchanges}"
+                                            th:value="${cryptoExchange}"
+                                            th:text="${cryptoExchange}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cryptoSymbol" class="form-label">심볼</label>
+                                <select id="cryptoSymbol" class="form-select" name="cryptoSymbol">
+                                    <option th:each="symbol : ${symbols}"
+                                            th:value="${symbol.id}"
+                                            th:text="${symbol.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="modal-submit-btn" type="submit" class="btn btn-primary">추가</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="form">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="cryptoExchange" class="form-label">거래소</label>
-                            <select id="cryptoExchange" class="form-select" name="cryptoExchange">
-                                <option th:each="cryptoExchange : ${cryptoExchanges}"
-                                        th:value="${cryptoExchange}"
-                                        th:text="${cryptoExchange}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cryptoSymbol" class="form-label">심볼</label>
-                            <select id="cryptoSymbol" class="form-select" name="cryptoSymbol">
-                                <option th:each="symbol : ${symbols}"
-                                        th:value="${symbol.id}"
-                                        th:text="${symbol.name}">
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="modal-submit-btn" type="submit" class="btn btn-primary">추가</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
+    <div th:replace="~{fragments/toast.html :: fragment-toast}"></div>
 </div>
-
-<div th:replace="~{fragments/toast.html :: fragment-toast}"></div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script th:src="@{/js/pair.js}"></script>
 </body>
