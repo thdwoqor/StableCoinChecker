@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <div th:replace="~{fragments/header.html :: fragment-header}"></div>
     <link rel="stylesheet" th:href="@{/css/base.css}">
 </head>
 <body>
-<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
 
 <div class="container" style="max-width: 720px;">
     <h2 class="pb-2 border-bottom">Symbol</h2>
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<div th:replace="/fragments/toast.html :: fragment-toast"></div>
+<div th:replace="~{fragments/toast.html :: fragment-toast}"></div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script th:src="@{/js/symbol.js}"></script>
 </body>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <div th:replace="~{fragments/header.html :: fragment-header}"></div>
     <link rel="stylesheet" th:href="@{/css/base.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
 <div class="centered-container">
-    <div th:replace="/fragments/nav.html :: fragment-nav"></div>
+    <div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
     <div class="form-signin w-100 m-auto">
         <form id="loginForm">
             <div class="form-floating mb-2">
@@ -23,7 +23,7 @@
             <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
         </form>
     </div>
-    <div th:replace="/fragments/toast.html :: fragment-toast"></div>
+    <div th:replace="~{fragments/toast.html :: fragment-toast}"></div>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script th:src="@{/js/login.js}"></script>
