@@ -44,3 +44,9 @@ body {
     border: 1px solid #888;
     position: relative;
 }
+
+.toast-container {
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+}

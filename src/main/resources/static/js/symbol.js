@@ -1,3 +1,14 @@
+const toastEl = document.querySelector('.toast');
+let toast = new bootstrap.Toast(toastEl);
+
+const showToast = (message, type = 'bg-danger') => {
+    const toastBody = document.getElementById('toast-body');
+    toastEl.classList.remove('bg-danger', 'bg-success', 'bg-warning');
+    toastEl.classList.add(type);
+    toastBody.innerText = message;
+    toast.show();
+}
+
 const modal = document.getElementById('modal');
 const form = document.getElementById('form');
 const modalSubmitBtn = document.getElementById('modal-submit-btn')
@@ -44,28 +55,71 @@ form.addEventListener('submit', (event) => {
 });
 
 const createProduct = (symbol) => {
-    axios.post("/admin/symbols", symbol)
-        .then((response) => {
-            window.location.reload();
-        }).catch((error) => {
-        console.error(error);
+    const credentials = localStorage.getItem('credentials');
+    if (!credentials) {
+        showToast('사용자 정보가 없습니다.', 'bg-danger');
+        return;
+    }
+
+    axios.request({
+        method: 'post',
+        url: '/admin/symbols',
+        headers: {
+            'Authorization': `Basic ${credentials}`
+        },
+        data: symbol
+    }).then((response) => {
+        window.location.reload();
+    }).catch((error) => {
+        handleError(error);
     });
 };
 
 const updateProduct = (id, symbol) => {
-    axios.put(`/admin/symbols/${id}`, symbol)
-        .then((response) => {
-            window.location.reload();
-        }).catch((error) => {
-        console.error(error);
+    const credentials = localStorage.getItem('credentials');
+    if (!credentials) {
+        showToast('사용자 정보가 없습니다.', 'bg-danger');
+        return;
+    }
+
+    axios.request({
+        method: 'put',
+        url: `/admin/symbols/${id}`,
+        headers: {
+            'Authorization': `Basic ${credentials}`
+        },
+        data: symbol
+    }).then((response) => {
+        window.location.reload();
+    }).catch((error) => {
+        handleError(error);
     });
 };
 
 const deleteProduct = (id) => {
-    axios.delete(`/admin/symbols/${id}`)
-        .then((response) => {
-            window.location.reload();
-        }).catch((error) => {
-        console.error(error);
+    const credentials = localStorage.getItem('credentials');
+    if (!credentials) {
+        showToast('사용자 정보가 없습니다.', 'bg-danger');
+        return;
+    }
+
+    axios.request({
+        method: 'delete',
+        url: `/admin/symbols/${id}`,
+        headers: {
+            'Authorization': `Basic ${credentials}`
+        }
+    }).then((response) => {
+        window.location.reload();
+    }).catch((error) => {
+        handleError(error);
     });
+};
+
+const handleError = (error) => {
+    console.error(error);
+    if (error.response) {
+        const errorMessage = error.response.data.message;
+        showToast(errorMessage, 'bg-danger');
+    }
 };

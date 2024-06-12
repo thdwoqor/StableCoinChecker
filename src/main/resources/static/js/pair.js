@@ -1,3 +1,14 @@
+const toastEl = document.querySelector('.toast');
+let toast = new bootstrap.Toast(toastEl);
+
+const showToast = (message, type = 'bg-danger') => {
+    const toastBody = document.getElementById('toast-body');
+    toastEl.classList.remove('bg-danger', 'bg-success', 'bg-warning');
+    toastEl.classList.add(type);
+    toastBody.innerText = message;
+    toast.show();
+}
+
 const modal = document.getElementById('modal');
 const form = document.getElementById('form');
 const modalSubmitBtn = document.getElementById('modal-submit-btn');
@@ -31,8 +42,8 @@ form.addEventListener('submit', (event) => {
 
     let pair = {};
 
-    pair["cryptoExchange"] = cryptoExchange.value
-    pair["cryptoSymbolId"] = cryptoSymbol.value
+    pair["cryptoExchange"] = cryptoExchange.value;
+    pair["cryptoSymbolId"] = cryptoSymbol.value;
 
     if (modal.dataset.formType === 'edit') {
         updateProduct(modal.dataset.symbolId, pair);
@@ -42,28 +53,71 @@ form.addEventListener('submit', (event) => {
 });
 
 const createProduct = (pair) => {
-    axios.post("/admin/pairs", pair)
-        .then((response) => {
-            window.location.reload();
-        }).catch((error) => {
-        console.error(error);
+    const credentials = localStorage.getItem('credentials');
+    if (!credentials) {
+        showToast('사용자 정보가 없습니다.', 'bg-danger');
+        return;
+    }
+
+    axios.request({
+        method: 'post',
+        url: '/admin/pairs',
+        headers: {
+            'Authorization': `Basic ${credentials}`
+        },
+        data: pair
+    }).then((response) => {
+        window.location.reload();
+    }).catch((error) => {
+        handleError(error);
     });
 };
 
 const updateProduct = (id, pair) => {
-    axios.put(`/admin/pairs/${id}`, pair)
-        .then((response) => {
-            window.location.reload();
-        }).catch((error) => {
-        console.error(error);
+    const credentials = localStorage.getItem('credentials');
+    if (!credentials) {
+        showToast('사용자 정보가 없습니다.', 'bg-danger');
+        return;
+    }
+
+    axios.request({
+        method: 'put',
+        url: `/admin/pairs/${id}`,
+        headers: {
+            'Authorization': `Basic ${credentials}`
+        },
+        data: pair
+    }).then((response) => {
+        window.location.reload();
+    }).catch((error) => {
+        handleError(error);
     });
 };
 
 const deleteProduct = (id) => {
-    axios.delete(`/admin/pairs/${id}`)
-        .then((response) => {
-            window.location.reload();
-        }).catch((error) => {
-        console.error(error);
+    const credentials = localStorage.getItem('credentials');
+    if (!credentials) {
+        showToast('사용자 정보가 없습니다.', 'bg-danger');
+        return;
+    }
+
+    axios.request({
+        method: 'delete',
+        url: `/admin/pairs/${id}`,
+        headers: {
+            'Authorization': `Basic ${credentials}`
+        }
+    }).then((response) => {
+        window.location.reload();
+    }).catch((error) => {
+        handleError(error);
     });
+};
+
+const handleError = (error) => {
+    console.error(error);
+    if (error.response) {
+        const errorMessage = error.response.data.message;
+        showToast(errorMessage, 'bg-danger');
+    }
 };
