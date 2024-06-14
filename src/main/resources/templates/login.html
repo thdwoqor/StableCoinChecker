@@ -1,30 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout.html}">
 <head>
-    <div th:replace="~{fragments/header.html :: fragment-header}"></div>
-    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <title>로그인</title>
 </head>
-
 <body>
-<div class="centered-container">
-    <div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
-    <div class="w-100 m-auto" style="max-width: 300px;">
-        <form id="loginForm">
-            <div class="form-floating mb-2">
-                <input type="username" class="form-control" id="floatingUsername" placeholder="Username">
-                <label for="floatingUsername">Username</label>
-            </div>
-            <div class="form-floating mb-4">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-            </div>
+<div layout:fragment="content">
+    <form id="loginForm">
+        <div class="form-floating mb-2">
+            <input type="username" class="form-control" id="floatingUsername" placeholder="Username">
+            <label for="floatingUsername">Username</label>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
 
-            <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
-        </form>
-    </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
+    </form>
     <div th:replace="~{fragments/toast.html :: fragment-toast}"></div>
 </div>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script th:src="@{/js/login.js}"></script>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/login.js}"></script>
+</th:block>
 </body>
 </html>
