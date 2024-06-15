@@ -49,7 +49,6 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    min-height: 100%;
 }
 
 .content-container {
@@ -59,4 +58,26 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 70%;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 25%;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 80%;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding-bottom: 20px;
 }

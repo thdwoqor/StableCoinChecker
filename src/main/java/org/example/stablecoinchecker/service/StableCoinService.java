@@ -13,7 +13,6 @@ import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.service.dto.StableCoinMapper;
-import org.example.stablecoinchecker.service.dto.StableCoinResponse;
 import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +52,7 @@ public class StableCoinService {
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 클라이언트입니다."));
     }
 
-    public List<StableCoinResponse> findStableCoinResponse(
+    public List<List<Long>> findStableCoinResponse(
             final String cex,
             final String symbol,
             final Long interval,
@@ -68,8 +67,13 @@ public class StableCoinService {
                 to
         ));
 
-        return search.stream()
-                .map(StableCoinResponse::of)
-                .toList();
+        List<List<Long>> result = search.stream().map(
+                stableCoin -> List.of(
+                        stableCoin.getCreatedAt().longValue(),
+                        stableCoin.getTicker().getCurrentPrice().longValue()
+                )
+        ).toList();
+
+        return result;
     }
 }

@@ -19,6 +19,12 @@ public class ViewController {
     private final CryptoPairService cryptoPairService;
     private final CryptoSymbolService cryptoSymbolService;
 
+    @GetMapping("/admin")
+    public String displayMain(final Model model) {
+        model.addAttribute("cryptoExchanges", CryptoExchange.values());
+        return "main";
+    }
+
     @GetMapping("/admin/login")
     public String displayLogin() {
         return "login";

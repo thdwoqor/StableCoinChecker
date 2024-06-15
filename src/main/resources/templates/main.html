@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout.html}">
+<head>
+    <title>Stable Check Admin</title>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+</head>
+<body>
+<div class="chart-container" layout:fragment="content">
+    <div class="dropdown-container">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <span id="dropdown-selected" th:text="${cryptoExchanges[0]}">Dropdown button</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-menu">
+                <li th:each="cryptoExchange, iterStat : ${cryptoExchanges}">
+                    <a class="dropdown-item" th:data-value="${cryptoExchange}"
+                       th:classappend="${iterStat.index == 0} ? 'active'" th:text="${cryptoExchange}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="klines"></div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/main.js}"></script>
+</th:block>
+</body>
+</html>

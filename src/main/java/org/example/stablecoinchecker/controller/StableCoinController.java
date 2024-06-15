@@ -3,7 +3,6 @@ package org.example.stablecoinchecker.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.service.StableCoinService;
-import org.example.stablecoinchecker.service.dto.StableCoinResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +14,8 @@ public class StableCoinController {
 
     private final StableCoinService service;
 
-    @GetMapping("/area")
-    public ResponseEntity<List<StableCoinResponse>> findArea(
+    @GetMapping("/chart/area")
+    public ResponseEntity<List<List<Long>>> findArea(
             @RequestParam("cex") String cex,
             @RequestParam("symbol") String symbol,
             @RequestParam("interval") Long interval,
