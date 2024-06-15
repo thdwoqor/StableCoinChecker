@@ -33,7 +33,7 @@
                             states: {
                                 hover: {
                                     style: {
-                                        color: '#f4f4f4'
+                                        color: '#000000'
                                     }
                                 }
                             }
@@ -195,6 +195,7 @@
         });
 
         document.getElementById('dropdown-selected').innerText = exchange;
+
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -208,6 +209,11 @@
             const exchange = target.getAttribute('data-value');
             document.getElementById('dropdown-selected').innerText = exchange;
             updateChart(exchange);
+
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            target.classList.add('active');
         }
     });
 })();
