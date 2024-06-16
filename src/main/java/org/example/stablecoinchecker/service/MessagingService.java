@@ -17,7 +17,6 @@ public class MessagingService {
     private final MessagingServiceProvider messagingServiceProvider;
     private final ExchangeRateService exchangeRateService;
     private final StableCoinService stableCoinService;
-    private final UpbitConverter upbitConverter;
 
     @Scheduled(cron = "${schedule.cron}")
     @SchedulerLock(
@@ -31,7 +30,6 @@ public class MessagingService {
 
         StringBuffer sb = new StringBuffer();
         sb.append(MessageFormatter.formatExchangeRateMessage(exchangeRate));
-        sb.append(MessageFormatter.formatConvertedUsdtMessage(upbitConverter.convertBtcToUsdt(exchangeRate)));
         sb.append(MessageFormatter.formatStableCoinMessage(stableCoin));
 
         messagingServiceProvider.sendMessage(sb.toString());

@@ -17,17 +17,6 @@ public class MessageFormatter {
         return sb.toString();
     }
 
-    public static String formatConvertedUsdtMessage(
-            final StableCoin stableCoinData
-    ) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("• *BTC 기준 USDT 환산*\n"));
-        sb.append("```복사\n");
-        sb.append(formatStableCoinPriceMessage(stableCoinData));
-        sb.append("```\n");
-        return sb.toString();
-    }
-
     public static String formatStableCoinMessage(final List<StableCoin> stableCoinData) {
         StringBuilder sb = new StringBuilder();
         sb.append("• *국내 스테이블 코인 가격*\n");
