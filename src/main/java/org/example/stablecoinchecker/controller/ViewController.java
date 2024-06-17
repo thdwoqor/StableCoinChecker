@@ -21,7 +21,7 @@ public class ViewController {
 
     @GetMapping("/admin")
     public String displayMain(final Model model) {
-        model.addAttribute("cryptoExchanges", CryptoExchange.values());
+        model.addAttribute("category", cryptoPairService.getCategories());
         return "main";
     }
 

@@ -1,6 +1,8 @@
 package org.example.stablecoinchecker.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
 import org.example.stablecoinchecker.domain.cryptopair.CryptoPairRepository;
@@ -10,6 +12,7 @@ import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolRepository;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.service.dto.CryptoPairRequest;
 import org.example.stablecoinchecker.service.dto.CryptoPairResponse;
+import org.example.stablecoinchecker.service.dto.CryptoSymbolResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,19 @@ public class CryptoPairService {
     private final CryptoPairRepository cryptoPairRepository;
     private final CryptoSymbolRepository cryptoSymbolRepository;
     private final DuplicateCryptoPairValidator validator;
+
+    @Transactional(readOnly = true)
+    public Map<CryptoExchange, List<CryptoSymbolResponse>> getCategories() {
+        List<CryptoPair> pairs = cryptoPairRepository.findAll();
+        return pairs.stream()
+                .collect(Collectors.groupingBy(
+                        CryptoPair::getCryptoExchange,
+                        Collectors.mapping(
+                                cryptoPair -> CryptoSymbolResponse.of(cryptoPair.getCryptoSymbol()),
+                                Collectors.toList()
+                        )
+                ));
+    }
 
     @Transactional(readOnly = true)
     public List<CryptoPairResponse> findAll() {

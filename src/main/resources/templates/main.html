@@ -5,29 +5,103 @@
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div class="chart-container" layout:fragment="content">
     <h2 class="pb-2 border-bottom">Chart</h2>
     <div class="dropdown-container mt-4 mb-2">
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownExchangeButton"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                <span id="dropdown-selected" th:text="${cryptoExchanges[0]}">Dropdown button</span>
+                <span id="selectedExchange"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-menu">
-                <li th:each="cryptoExchange, iterStat : ${cryptoExchanges}">
-                    <a class="dropdown-item" th:data-value="${cryptoExchange}"
-                       th:classappend="${iterStat.index == 0} ? 'active'" th:text="${cryptoExchange}"></a>
-                </li>
-            </ul>
+            <ul class="dropdown-menu" aria-labelledby="dropdownExchangeButton" id="dropdownExchangeItem"></ul>
         </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownSymbolButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <span id="selectedSymbol"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownSymbolButton" id="dropdownSymbolItem"></ul>
+        </div>
+
+        <script th:src="@{/js/main.js}"></script>
+        <script th:inline="javascript">
+            var category = [[${category}]];
+
+            async function updateSymbols(exchange) {
+                const symbols = category[exchange];
+                const dropdownMenu = document.getElementById('dropdownSymbolItem');
+                const dropdownSelected = document.getElementById('selectedSymbol');
+
+                dropdownMenu.innerHTML = '';
+
+                for (let index = 0; index < symbols.length; index++) {
+                    const symbol = symbols[index];
+                    const symbolItem = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.className = 'dropdown-item symbol';
+                    a.dataset.value = symbol.name;
+                    a.innerText = symbol.name;
+
+                    a.addEventListener('click', async function () {
+                        dropdownSelected.innerText = symbol.name;
+                        document.querySelectorAll('.symbol').forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                        await updateChart(exchange, symbol.name);
+                    });
+
+                    symbolItem.appendChild(a);
+                    dropdownMenu.appendChild(symbolItem);
+
+                    if (index === 0) {
+                        document.querySelectorAll('.symbol').forEach(item => item.classList.remove('active'));
+                        a.classList.add('active');
+                        dropdownSelected.innerText = symbol.name;
+                        await updateChart(exchange, symbol.name);
+                    }
+                }
+            }
+
+            async function initialize(exchanges) {
+                const dropdownMenu = document.getElementById('dropdownExchangeItem');
+                const dropdownSelected = document.getElementById('selectedExchange');
+
+                dropdownMenu.innerHTML = '';
+
+                for (let index = 0; index < exchanges.length; index++) {
+                    const exchange = exchanges[index];
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.className = 'dropdown-item exchange';
+                    a.dataset.value = exchange;
+                    a.innerText = exchange;
+
+                    a.addEventListener('click', async function () {
+                        dropdownSelected.innerText = exchange;
+                        await updateSymbols(exchange);
+                        document.querySelectorAll('.exchange').forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+
+                    li.appendChild(a);
+                    dropdownMenu.appendChild(li);
+
+                    if (index === 0) {
+                        document.querySelectorAll('.exchange').forEach(item => item.classList.remove('active'));
+                        a.classList.add('active');
+                        dropdownSelected.innerText = exchange;
+                        await updateSymbols(exchange);
+                    }
+                }
+            }
+
+            initialize(Object.keys(category));
+        </script>
     </div>
 
     <div id="klines"></div>
 </div>
-<th:block layout:fragment="script">
-    <script th:src="@{/js/main.js}"></script>
-</th:block>
 </body>
 </html>

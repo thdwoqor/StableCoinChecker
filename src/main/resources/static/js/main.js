@@ -1,10 +1,10 @@
 (async () => {
-    async function fetchData(exchange) {
+    async function fetchData(exchange, symbol) {
         const now = Math.floor(new Date().getTime());
         const response = await axios.get(`/chart/area`, {
             params: {
                 cex: exchange,
-                symbol: 'USDT',
+                symbol: symbol,
                 interval: 900,
                 limit: 1000,
                 to: now
@@ -13,8 +13,8 @@
         return response.data;
     }
 
-    async function updateChart(exchange) {
-        const data = await fetchData(exchange);
+    window.updateChart = async function updateChart(exchange, symbol) {
+        const data = await fetchData(exchange, symbol);
         Highcharts.setOptions({
             lang: {
                 rangeSelectorZoom: ''
@@ -193,27 +193,5 @@
                 borderWidth: 0
             }
         });
-
-        document.getElementById('dropdown-selected').innerText = exchange;
-
     }
-
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const initialExchange = document.getElementById('dropdown-selected').innerText;
-        updateChart(initialExchange);
-    });
-
-    document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
-        const target = event.target;
-        if (target.classList.contains('dropdown-item')) {
-            const exchange = target.getAttribute('data-value');
-            document.getElementById('dropdown-selected').innerText = exchange;
-            updateChart(exchange);
-
-            document.querySelectorAll('.dropdown-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            target.classList.add('active');
-        }
-    });
 })();
