@@ -14,10 +14,14 @@ import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.service.dto.StableCoinMapper;
 import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class StableCoinService {
 
@@ -25,6 +29,7 @@ public class StableCoinService {
     private final StableCoinRepository repository;
     private final CryptoPairService cryptoPairService;
 
+    @CacheEvict(value = "stablecoin")
     public List<StableCoin> saveAll(final BigDecimal exchangeRate) {
         List<StableCoin> coins = new ArrayList<>();
         for (CryptoExchangeClient client : cryptoExchangeClients) {
@@ -52,28 +57,24 @@ public class StableCoinService {
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 클라이언트입니다."));
     }
 
-    public List<List<Long>> findStableCoinResponse(
+    @Transactional(readOnly = true)
+    @Cacheable(
+            value = "stablecoin",
+            key = "#cex + ':' + #symbol + ':' + #interval + ':' + #limit + ':' + (#to - (#to % (#interval * 1000)))"
+    )
+    public List<StableCoin> searchStableCoins(
             final String cex,
             final String symbol,
             final Long interval,
             final Long limit,
             final Long to
-    ) {
-        List<StableCoin> search = repository.search(new StableCoinSearchCondition(
+    )  {
+        return repository.search(new StableCoinSearchCondition(
                 cex,
                 symbol,
                 interval,
                 limit,
                 to
         ));
-
-        List<List<Long>> result = search.stream().map(
-                stableCoin -> List.of(
-                        stableCoin.getCreatedAt().longValue(),
-                        stableCoin.getTicker().getCurrentPrice().longValue()
-                )
-        ).toList();
-
-        return result;
     }
 }
