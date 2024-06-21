@@ -1,18 +1,19 @@
 package org.example.stablecoinchecker.infra.cex.bithumb.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public record Data(
 
         @JsonProperty("closing_price")
-        String closingPrice,
+        BigDecimal closingPrice,
         @JsonProperty("opening_price")
-        String openingPrice,
+        BigDecimal openingPrice,
         @JsonProperty("min_price")
-        String minPrice,
+        BigDecimal minPrice,
         @JsonProperty("max_price")
-        String maxPrice,
+        BigDecimal maxPrice,
         @JsonProperty("units_traded")
-        String unitsTraded
+        BigDecimal unitsTraded
 ) {
 }

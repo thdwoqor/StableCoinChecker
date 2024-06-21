@@ -1,12 +1,14 @@
 package org.example.stablecoinchecker.infra.cex;
 
+import java.math.BigDecimal;
+
 public record TickerResponse(
         String cex,
         String symbol,
-        String close,
-        String open,
-        String low,
-        String high,
-        String volume
+        BigDecimal close,
+        BigDecimal open,
+        BigDecimal low,
+        BigDecimal high,
+        BigDecimal volume
 ) {
 }

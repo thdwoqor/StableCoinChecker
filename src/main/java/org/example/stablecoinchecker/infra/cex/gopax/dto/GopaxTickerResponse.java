@@ -1,14 +1,15 @@
 package org.example.stablecoinchecker.infra.cex.gopax.dto;
 
+import java.math.BigDecimal;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record GopaxTickerResponse(
-        String close,
-        String open,
-        String low,
-        String high,
-        String volume
+        BigDecimal close,
+        BigDecimal open,
+        BigDecimal low,
+        BigDecimal high,
+        BigDecimal volume
 ) {
 
     public TickerResponse toStableCoinTicker(final CryptoExchange cryptoExchange, final String orderCurrency) {

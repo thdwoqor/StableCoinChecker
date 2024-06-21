@@ -1,13 +1,14 @@
 package org.example.stablecoinchecker.infra.cex.coinone.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public record Ticker(
-        String last,
-        String first,
-        String low,
-        String high,
+        BigDecimal last,
+        BigDecimal first,
+        BigDecimal low,
+        BigDecimal high,
         @JsonProperty("target_volume")
-        String targetVolume
+        BigDecimal targetVolume
 ) {
 }

@@ -9,15 +9,15 @@ public class StableCoinMapper {
 
     public static StableCoin toStableCoin(final TickerResponse response, final BigDecimal exchangeRate) {
         Ticker ticker = Ticker.builder()
-                .currentPrice(new BigDecimal(response.close()))
-                .open(new BigDecimal(response.open()))
-                .low(new BigDecimal(response.low()))
-                .high(new BigDecimal(response.high()))
-                .volume(new BigDecimal(response.volume()))
+                .currentPrice(response.close())
+                .open(response.open())
+                .low(response.low())
+                .high(response.high())
+                .volume(response.volume())
                 .build();
 
         return new StableCoin(
-                new BigDecimal(String.valueOf(exchangeRate)),
+                exchangeRate,
                 response.cex(),
                 response.symbol(),
                 ticker

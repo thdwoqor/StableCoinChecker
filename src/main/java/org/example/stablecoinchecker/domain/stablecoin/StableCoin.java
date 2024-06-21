@@ -12,10 +12,12 @@ import java.time.temporal.ChronoUnit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.example.stablecoinchecker.domain.BaseEntity;
 
 @Getter
 @Entity
+@ToString
 @Table(name = "stable_coin")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StableCoin extends BaseEntity {

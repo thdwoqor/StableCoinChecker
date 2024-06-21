@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
@@ -25,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class StableCoinService {
 
+    private static final int WAIT_TIME = 1000;
+    private static final int RETRY_COUNT = 3;
+
     private final List<CryptoExchangeClient> cryptoExchangeClients;
     private final StableCoinRepository repository;
     private final CryptoPairService cryptoPairService;
@@ -36,14 +40,9 @@ public class StableCoinService {
             List<CryptoPair> cryptoPairs = cryptoPairService.findByCryptoExchange(findCryptoExchange(client));
 
             for (CryptoPair cryptoPair : cryptoPairs) {
-                try {
-                    TickerResponse response = client.getTickers(
-                            cryptoPair.getCryptoSymbol().getName()
-                    );
-                    coins.add(StableCoinMapper.toStableCoin(response, exchangeRate));
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                }
+                getTickerResponse(client, cryptoPair).ifPresent(
+                        response -> coins.add(StableCoinMapper.toStableCoin(response, exchangeRate))
+                );
             }
         }
         repository.saveAll(coins);
@@ -57,6 +56,30 @@ public class StableCoinService {
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 클라이언트입니다."));
     }
 
+    private Optional<TickerResponse> getTickerResponse(
+            final CryptoExchangeClient client,
+            final CryptoPair cryptoPair
+    ) {
+        for (int i = 0; i < RETRY_COUNT; i++) {
+            try {
+                TickerResponse response = client.getTickers(cryptoPair.getCryptoSymbol().getName());
+                return Optional.of(response);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                waitForOneSecond();
+            }
+        }
+        return Optional.empty();
+    }
+
+    private void waitForOneSecond() {
+        try {
+            Thread.sleep(WAIT_TIME);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("작업을 기다리는 도중에 문제가 발생했습니다", e);
+        }
+    }
+
     @Transactional(readOnly = true)
     @Cacheable(
             value = "stablecoin",
@@ -68,7 +91,7 @@ public class StableCoinService {
             final Long interval,
             final Long limit,
             final Long to
-    )  {
+    ) {
         return repository.search(new StableCoinSearchCondition(
                 cex,
                 symbol,

@@ -4,8 +4,9 @@ resource "aws_codestarconnections_connection" "this" {
 }
 
 resource "aws_codepipeline" "this" {
-  name     = var.project_name
-  role_arn = aws_iam_role.codepipeline.arn
+  name          = var.project_name
+  pipeline_type = "V2"
+  role_arn      = aws_iam_role.codepipeline.arn
 
   artifact_store {
     location = data.terraform_remote_state.s3.outputs.s3_bucket
