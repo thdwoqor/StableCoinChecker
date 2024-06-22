@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StableCoinSearchCondition {
+public class CryptoTickerSearchCondition {
     private String cex;
     private String symbol;
     private Long interval;

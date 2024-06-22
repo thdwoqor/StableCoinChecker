@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.domain.stablecoin;
+package org.example.stablecoinchecker.domain.cryptoticker;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -18,32 +18,32 @@ import org.example.stablecoinchecker.domain.BaseEntity;
 @Getter
 @Entity
 @ToString
-@Table(name = "stable_coin")
+@Table(name = "crypto_ticker")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StableCoin extends BaseEntity {
+public class CryptoTicker extends BaseEntity {
 
     private BigDecimal exchangeRate;
-    private String cex;
+    private String cryptoExchange;
     private String symbol;
     @Embedded
-    private Ticker ticker;
+    private Price price;
     @Column(updatable = false)
     private Long createdAt;
 
-    public StableCoin(
+    public CryptoTicker(
             final BigDecimal exchangeRate,
-            final String cex,
+            final String cryptoExchange,
             final String symbol,
-            final Ticker ticker
+            final Price price
     ) {
         this.exchangeRate = exchangeRate;
-        this.cex = cex.toUpperCase();
+        this.cryptoExchange = cryptoExchange.toUpperCase();
         this.symbol = symbol.toUpperCase();
-        this.ticker = ticker;
+        this.price = price;
     }
 
     public double calculateKimchiPremium() {
-        return ticker.getCurrentPrice().divide(exchangeRate, 3, RoundingMode.HALF_DOWN)
+        return price.getClose().divide(exchangeRate, 3, RoundingMode.HALF_DOWN)
                 .subtract(BigDecimal.ONE)
                 .multiply(new BigDecimal("100"))
                 .setScale(1)
@@ -51,7 +51,7 @@ public class StableCoin extends BaseEntity {
     }
 
     public int getCurrentPrice() {
-        return ticker.getCurrentPrice().intValue();
+        return price.getClose().intValue();
     }
 
     @PrePersist

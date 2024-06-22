@@ -3,7 +3,7 @@ package org.example.stablecoinchecker.service.dto;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.Getter;
-import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
 
 @Getter
 public class MessageFormatter {
@@ -17,23 +17,23 @@ public class MessageFormatter {
         return sb.toString();
     }
 
-    public static String formatStableCoinMessage(final List<StableCoin> stableCoinData) {
+    public static String formatStablecoinMessage(final List<CryptoTicker> cryptoTickerData) {
         StringBuilder sb = new StringBuilder();
         sb.append("• *국내 스테이블 코인 가격*\n");
         sb.append("```복사\n");
-        for (StableCoin coin : stableCoinData) {
-            sb.append(formatStableCoinPriceMessage(coin));
+        for (CryptoTicker coin : cryptoTickerData) {
+            sb.append(formatPriceMessage(coin));
         }
         sb.append("```\n");
         return sb.toString();
     }
 
-    private static String formatStableCoinPriceMessage(final StableCoin stableCoinData) {
+    private static String formatPriceMessage(final CryptoTicker cryptoTickerData) {
         return String.format(
                 "%-8s(%s) : %,d원(%.1f%%)\n",
-                stableCoinData.getCex(),
-                stableCoinData.getSymbol(),
-                stableCoinData.getCurrentPrice(),
-                stableCoinData.calculateKimchiPremium());
+                cryptoTickerData.getCryptoExchange(),
+                cryptoTickerData.getSymbol(),
+                cryptoTickerData.getCurrentPrice(),
+                cryptoTickerData.calculateKimchiPremium());
     }
 }

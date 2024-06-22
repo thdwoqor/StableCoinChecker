@@ -8,13 +8,13 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
-import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
-import org.example.stablecoinchecker.domain.stablecoin.StableCoinRepository;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTickerRepository;
+import org.example.stablecoinchecker.domain.cryptoticker.Price;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
-import org.example.stablecoinchecker.service.dto.StableCoinMapper;
-import org.example.stablecoinchecker.service.dto.StableCoinSearchCondition;
+import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,24 +24,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StableCoinService {
+public class CryptoTickerService {
 
     private static final int WAIT_TIME = 1000;
     private static final int RETRY_COUNT = 3;
 
     private final List<CryptoExchangeClient> cryptoExchangeClients;
-    private final StableCoinRepository repository;
+    private final CryptoTickerRepository repository;
     private final CryptoPairService cryptoPairService;
 
     @CacheEvict(value = "stablecoin")
-    public List<StableCoin> saveAll(final BigDecimal exchangeRate) {
-        List<StableCoin> coins = new ArrayList<>();
+    public List<CryptoTicker> saveAll(final BigDecimal exchangeRate) {
+        List<CryptoTicker> coins = new ArrayList<>();
         for (CryptoExchangeClient client : cryptoExchangeClients) {
             List<CryptoPair> cryptoPairs = cryptoPairService.findByCryptoExchange(findCryptoExchange(client));
 
             for (CryptoPair cryptoPair : cryptoPairs) {
                 getTickerResponse(client, cryptoPair).ifPresent(
-                        response -> coins.add(StableCoinMapper.toStableCoin(response, exchangeRate))
+                        response -> coins.add(tickerResponseToCryptoTicker(response, exchangeRate))
                 );
             }
         }
@@ -88,7 +88,18 @@ public class StableCoinService {
                     + "#condition.interval + ':' + "
                     + "#condition.limit + ':' + (#condition.to - (#condition.to % (#condition.interval * 1000)))"
     )
-    public List<StableCoin> searchStableCoins(final StableCoinSearchCondition condition) {
+    public List<CryptoTicker> searchStableCoins(final CryptoTickerSearchCondition condition) {
         return repository.search(condition);
+    }
+
+    public CryptoTicker tickerResponseToCryptoTicker(final TickerResponse response, final BigDecimal exchangeRate) {
+        Price price = new Price(response.close());
+
+        return new CryptoTicker(
+                exchangeRate,
+                response.cex(),
+                response.symbol(),
+                price
+        );
     }
 }

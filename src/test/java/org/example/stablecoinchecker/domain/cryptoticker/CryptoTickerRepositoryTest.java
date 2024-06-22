@@ -1,11 +1,11 @@
-package org.example.stablecoinchecker.domain.stablecoin;
+package org.example.stablecoinchecker.domain.cryptoticker;
 
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.example.stablecoinchecker.config.QueryDSLConfig;
-import org.example.stablecoinchecker.domain.stablecoin.StableCoin;
-import org.example.stablecoinchecker.domain.stablecoin.Ticker;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
+import org.example.stablecoinchecker.domain.cryptoticker.Price;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest
 @Import(QueryDSLConfig.class)
 @SuppressWarnings("NonAsciiCharacters")
-class StableCoinRepositoryTest {
+class CryptoTickerRepositoryTest {
 
     @Autowired
     private EntityManager em;
@@ -24,23 +24,19 @@ class StableCoinRepositoryTest {
     @Transactional
     void 생성시간에서_초단위_제거() {
         //given
-        StableCoin stableCoin = new StableCoin(
+        CryptoTicker cryptoTicker = new CryptoTicker(
                 new BigDecimal(1400),
                 "UPBIT",
                 "USDT",
-                new Ticker(
-                        new BigDecimal(1371),
-                        new BigDecimal(1412),
-                        new BigDecimal(1370),
-                        new BigDecimal(1414),
-                        BigDecimal.ONE
+                new Price(
+                        new BigDecimal(1371)
                 )
         );
 
         //when
-        em.persist(stableCoin);
+        em.persist(cryptoTicker);
 
         //then
-        Assertions.assertThat(stableCoin.getCreatedAt() % 60).isZero();
+        Assertions.assertThat(cryptoTicker.getCreatedAt() % 60).isZero();
     }
 }

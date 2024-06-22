@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @SuppressWarnings("NonAsciiCharacters")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class StableCoinControllerTest {
+class ChartControllerTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -32,17 +32,17 @@ class StableCoinControllerTest {
     void 조건에_맞는_영역_차트_데이터를_반환할_수_있다() {
         // given
         String 검색_조건을_만족하는_쿼리_1 =
-                "INSERT INTO stable_coin (exchange_rate, cex, symbol, current_price, open, low, high, created_at, volume) "
-                        + "VALUES (1401, 'UPBIT', 'USDT', 1443, 1443, 1441, 1446, 900, 9639895);";
+                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
+                        + "VALUES (1401, 'UPBIT', 'USDT', 1443, 900);";
         String 검색_조건을_만족하는_쿼리_2 =
-                "INSERT INTO stable_coin (exchange_rate, cex, symbol, current_price, open, low, high, created_at, volume) "
-                        + "VALUES (1404, 'UPBIT', 'USDT', 1445, 1443, 1441, 1446, 1800, 9639895);";
+                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
+                        + "VALUES (1404, 'UPBIT', 'USDT', 1445, 1800);";
         String 검색_조건을_만족하지_않는_쿼리_1 =
-                "INSERT INTO stable_coin (exchange_rate, cex, symbol, current_price, open, low, high, created_at, volume) "
-                        + "VALUES (1401, 'UPBIT', 'USDT', 1444, 1444, 1440, 1445, 2700, 9639895);";
+                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
+                        + "VALUES (1401, 'UPBIT', 'USDT', 1444, 2700);";
         String 검색_조건을_만족하지_않는_쿼리_2 =
-                "INSERT INTO stable_coin (exchange_rate, cex, symbol, current_price, open, low, high, created_at, volume) "
-                        + "VALUES (1403, 'UPBIT', 'USDT', 1448, 1444, 1440, 1445, 1000, 9639895);";
+                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
+                        + "VALUES (1403, 'UPBIT', 'USDT', 1448, 1000);";
         jdbcTemplate.batchUpdate(
                 검색_조건을_만족하는_쿼리_1,
                 검색_조건을_만족하는_쿼리_2,
