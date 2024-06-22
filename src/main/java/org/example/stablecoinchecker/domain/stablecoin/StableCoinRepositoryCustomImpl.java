@@ -35,22 +35,22 @@ public class StableCoinRepositoryCustomImpl implements StableCoinRepositoryCusto
     }
 
     private static BooleanExpression cryptocurrencyExchangeEq(final StableCoinSearchCondition condition) {
-        return stableCoin.cex.eq(condition.cex());
+        return stableCoin.cex.eq(condition.getCex());
     }
 
     private Long getCondition(final StableCoinSearchCondition condition) {
-        return condition.limit() != null ? condition.limit() : 1000;
+        return condition.getLimit() != null ? condition.getLimit() : 1000;
     }
 
     private BooleanExpression createdAtLoe(final StableCoinSearchCondition condition) {
-        return condition.to() != null ? stableCoin.createdAt.loe(condition.to()) : null;
+        return condition.getTo() != null ? stableCoin.createdAt.loe(condition.getTo()) : null;
     }
 
     private BooleanExpression createdAtMod(final StableCoinSearchCondition condition) {
-        return condition.interval() != null ? stableCoin.createdAt.mod(condition.interval()).eq(0L) : null;
+        return condition.getInterval() != null ? stableCoin.createdAt.mod(condition.getInterval()).eq(0L) : null;
     }
 
     private BooleanExpression symbolEq(final StableCoinSearchCondition condition) {
-        return StringUtils.hasText(condition.symbol()) ? stableCoin.symbol.eq(condition.symbol().toUpperCase()) : null;
+        return StringUtils.hasText(condition.getSymbol()) ? stableCoin.symbol.eq(condition.getSymbol().toUpperCase()) : null;
     }
 }

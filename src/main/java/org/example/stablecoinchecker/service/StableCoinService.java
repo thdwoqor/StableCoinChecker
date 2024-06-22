@@ -83,21 +83,12 @@ public class StableCoinService {
     @Transactional(readOnly = true)
     @Cacheable(
             value = "stablecoin",
-            key = "#cex + ':' + #symbol + ':' + #interval + ':' + #limit + ':' + (#to - (#to % (#interval * 1000)))"
+            key = "#condition.cex + ':' + "
+                    + "#condition.symbol + ':' + "
+                    + "#condition.interval + ':' + "
+                    + "#condition.limit + ':' + (#condition.to - (#condition.to % (#condition.interval * 1000)))"
     )
-    public List<StableCoin> searchStableCoins(
-            final String cex,
-            final String symbol,
-            final Long interval,
-            final Long limit,
-            final Long to
-    ) {
-        return repository.search(new StableCoinSearchCondition(
-                cex,
-                symbol,
-                interval,
-                limit,
-                to
-        ));
+    public List<StableCoin> searchStableCoins(final StableCoinSearchCondition condition) {
+        return repository.search(condition);
     }
 }

@@ -28,7 +28,6 @@ class CryptoPairServiceTest {
     @Test
     void 메서드를_호출하면_처음을_제외한_나머지는_Cache가_인터셉트한다() {
         // given
-
         StableCoinSearchCondition search = new StableCoinSearchCondition(
                 "UPBIT",
                 "USDT",
@@ -52,13 +51,7 @@ class CryptoPairServiceTest {
                         )));
 
         // when
-        IntStream.range(0, 10).forEach((i) -> stableCoinService.searchStableCoins(
-                "UPBIT",
-                "USDT",
-                900L,
-                1000L,
-                1718592600000L
-        ));
+        IntStream.range(0, 10).forEach((i) -> stableCoinService.searchStableCoins(search));
 
         // then
         verify(repository, times((1))).search(any());
