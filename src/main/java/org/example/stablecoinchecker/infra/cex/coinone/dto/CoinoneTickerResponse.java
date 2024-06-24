@@ -15,10 +15,7 @@ public record CoinoneTickerResponse(
                 cryptoExchange.name(),
                 orderCurrency.toUpperCase(),
                 tickers.get(0).last(),
-                tickers.get(0).first(),
-                tickers.get(0).low(),
-                tickers.get(0).high(),
-                tickers.get(0).targetVolume()
+                tickers.get(0).timestamp()
         );
     }
 }

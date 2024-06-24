@@ -1,15 +1,13 @@
 package org.example.stablecoinchecker.infra.cex.gopax.dto;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record GopaxTickerResponse(
         BigDecimal close,
-        BigDecimal open,
-        BigDecimal low,
-        BigDecimal high,
-        BigDecimal volume
+        String time
 ) {
 
     public TickerResponse toStableCoinTicker(final CryptoExchange cryptoExchange, final String orderCurrency) {
@@ -17,10 +15,7 @@ public record GopaxTickerResponse(
                 cryptoExchange.name(),
                 orderCurrency.toUpperCase(),
                 close,
-                open,
-                low,
-                high,
-                volume
+                ZonedDateTime.parse(time).toInstant().toEpochMilli()
         );
     }
 }

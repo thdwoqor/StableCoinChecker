@@ -5,10 +5,6 @@ import java.math.BigDecimal;
 
 public record Ticker(
         BigDecimal last,
-        BigDecimal first,
-        BigDecimal low,
-        BigDecimal high,
-        @JsonProperty("target_volume")
-        BigDecimal targetVolume
+        Long timestamp
 ) {
 }

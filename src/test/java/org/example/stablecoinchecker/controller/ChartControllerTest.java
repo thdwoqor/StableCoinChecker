@@ -32,17 +32,17 @@ class ChartControllerTest {
     void 조건에_맞는_영역_차트_데이터를_반환할_수_있다() {
         // given
         String 검색_조건을_만족하는_쿼리_1 =
-                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
-                        + "VALUES (1401, 'UPBIT', 'USDT', 1443, 900);";
+                "INSERT INTO crypto_ticker (crypto_exchange, symbol, close, created_at) "
+                        + "VALUES ('UPBIT', 'USDT', 1443, 900);";
         String 검색_조건을_만족하는_쿼리_2 =
-                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
-                        + "VALUES (1404, 'UPBIT', 'USDT', 1445, 1800);";
+                "INSERT INTO crypto_ticker (crypto_exchange, symbol, close, created_at) "
+                        + "VALUES ('UPBIT', 'USDT', 1445, 1800);";
         String 검색_조건을_만족하지_않는_쿼리_1 =
-                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
-                        + "VALUES (1401, 'UPBIT', 'USDT', 1444, 2700);";
+                "INSERT INTO crypto_ticker (crypto_exchange, symbol, close, created_at) "
+                        + "VALUES ('UPBIT', 'USDT', 1444, 2700);";
         String 검색_조건을_만족하지_않는_쿼리_2 =
-                "INSERT INTO crypto_ticker (exchange_rate, crypto_exchange, symbol, close, created_at) "
-                        + "VALUES (1403, 'UPBIT', 'USDT', 1448, 1000);";
+                "INSERT INTO crypto_ticker (crypto_exchange, symbol, close, created_at) "
+                        + "VALUES ('UPBIT', 'USDT', 1448, 1000);";
         jdbcTemplate.batchUpdate(
                 검색_조건을_만족하는_쿼리_1,
                 검색_조건을_만족하는_쿼리_2,

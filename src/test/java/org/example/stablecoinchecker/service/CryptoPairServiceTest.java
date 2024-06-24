@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
-import org.example.stablecoinchecker.domain.cryptoticker.Price;
 import org.example.stablecoinchecker.domain.cryptoticker.CryptoTickerRepository;
+import org.example.stablecoinchecker.domain.cryptoticker.Price;
 import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,6 @@ class CryptoPairServiceTest {
         given(repository.search(search))
                 .willReturn(List.of(
                         new CryptoTicker(
-                                BigDecimal.valueOf(1300),
                                 "UPBIT",
                                 "USDT",
                                 new Price(

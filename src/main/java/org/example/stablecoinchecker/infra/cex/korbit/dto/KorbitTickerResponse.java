@@ -6,20 +6,14 @@ import org.example.stablecoinchecker.infra.cex.TickerResponse;
 
 public record KorbitTickerResponse(
         BigDecimal last,
-        BigDecimal open,
-        BigDecimal low,
-        BigDecimal high,
-        BigDecimal volume
+        Long timestamp
 ) {
     public TickerResponse toTickerResponse(final CryptoExchange cryptoExchange, final String orderCurrency) {
         return new TickerResponse(
                 cryptoExchange.name(),
                 orderCurrency.toUpperCase(),
                 last,
-                open,
-                low,
-                high,
-                volume
+                timestamp
         );
     }
 }

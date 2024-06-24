@@ -13,10 +13,7 @@ public record BithumbTickerResponse(
                 cryptoExchange.name(),
                 orderCurrency.toUpperCase(),
                 data.closingPrice(),
-                data.openingPrice(),
-                data.minPrice(),
-                data.maxPrice(),
-                data.unitsTraded()
+                data.date()
         );
     }
 }

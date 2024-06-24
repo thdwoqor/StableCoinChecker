@@ -1,7 +1,5 @@
 package org.example.stablecoinchecker.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +13,6 @@ import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
 import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,23 +27,28 @@ public class CryptoTickerService {
     private static final int RETRY_COUNT = 3;
 
     private final List<CryptoExchangeClient> cryptoExchangeClients;
-    private final CryptoTickerRepository repository;
+    private final CryptoTickerRepository cryptoTickerRepository;
     private final CryptoPairService cryptoPairService;
 
-    @CacheEvict(value = "stablecoin")
-    public List<CryptoTicker> saveAll(final BigDecimal exchangeRate) {
-        List<CryptoTicker> coins = new ArrayList<>();
-        for (CryptoExchangeClient client : cryptoExchangeClients) {
-            List<CryptoPair> cryptoPairs = cryptoPairService.findByCryptoExchange(findCryptoExchange(client));
+    public List<CryptoTicker> saveAll() {
+        List<CryptoTicker> cryptoTickers = cryptoExchangeClients.stream()
+                .flatMap(client -> cryptoPairService.findByCryptoExchange(findCryptoExchange(client))
+                        .stream()
+                        .map(cryptoPair -> getTickerResponse(client, cryptoPair))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .map(this::tickerResponseToCryptoTicker))
+                .toList();
 
-            for (CryptoPair cryptoPair : cryptoPairs) {
-                getTickerResponse(client, cryptoPair).ifPresent(
-                        response -> coins.add(tickerResponseToCryptoTicker(response, exchangeRate))
-                );
-            }
-        }
-        repository.saveAll(coins);
-        return coins;
+        return cryptoTickerRepository.saveAll(cryptoTickers);
+    }
+
+    public CryptoTicker tickerResponseToCryptoTicker(final TickerResponse response) {
+        return new CryptoTicker(
+                response.cex(),
+                response.symbol(),
+                new Price(response.close())
+        );
     }
 
     private CryptoExchange findCryptoExchange(final CryptoExchangeClient client) {
@@ -89,17 +91,6 @@ public class CryptoTickerService {
                     + "#condition.limit + ':' + (#condition.to - (#condition.to % (#condition.interval * 1000)))"
     )
     public List<CryptoTicker> searchStableCoins(final CryptoTickerSearchCondition condition) {
-        return repository.search(condition);
-    }
-
-    public CryptoTicker tickerResponseToCryptoTicker(final TickerResponse response, final BigDecimal exchangeRate) {
-        Price price = new Price(response.close());
-
-        return new CryptoTicker(
-                exchangeRate,
-                response.cex(),
-                response.symbol(),
-                price
-        );
+        return cryptoTickerRepository.search(condition);
     }
 }

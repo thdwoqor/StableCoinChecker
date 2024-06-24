@@ -4,8 +4,6 @@ import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.example.stablecoinchecker.config.QueryDSLConfig;
-import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
-import org.example.stablecoinchecker.domain.cryptoticker.Price;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -25,7 +23,6 @@ class CryptoTickerRepositoryTest {
     void 생성시간에서_초단위_제거() {
         //given
         CryptoTicker cryptoTicker = new CryptoTicker(
-                new BigDecimal(1400),
                 "UPBIT",
                 "USDT",
                 new Price(
