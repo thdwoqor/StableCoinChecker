@@ -1,6 +1,8 @@
 package org.example.stablecoinchecker.infra.exchangerate.dto;
 
+import java.math.BigDecimal;
+
 public record ExchangeRateResponse(
-        double basePrice
+        BigDecimal rate
 ) {
 }

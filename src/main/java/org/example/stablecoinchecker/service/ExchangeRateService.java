@@ -1,6 +1,5 @@
 package org.example.stablecoinchecker.service;
 
-import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.exchangeRate.ExchangeRate;
 import org.example.stablecoinchecker.domain.exchangeRate.ExchangeRateRepository;
@@ -16,9 +15,9 @@ public class ExchangeRateService {
 
     public ExchangeRate save() {
         ExchangeRate exchangeRate = new ExchangeRate(
-                new BigDecimal(String.valueOf(
-                        exchangeRateClient.getExchangeRate().get(0).basePrice()
-                )));
+                exchangeRateClient.getExchangeRate().get(0).rate()
+        );
+
         return exchangeRateRepository.save(exchangeRate);
     }
 }

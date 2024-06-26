@@ -2,6 +2,7 @@ package org.example.stablecoinchecker.domain.exchangeRate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -12,14 +13,15 @@ import org.example.stablecoinchecker.domain.BaseEntity;
 
 @Getter
 @Entity
+@Table(name = "exchange_rate")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExchangeRate extends BaseEntity {
 
-    private BigDecimal value;
+    private BigDecimal price;
     private Long createdAt;
 
-    public ExchangeRate(final BigDecimal value) {
-        this.value = value;
+    public ExchangeRate(final BigDecimal price) {
+        this.price = price;
     }
 
     @PrePersist

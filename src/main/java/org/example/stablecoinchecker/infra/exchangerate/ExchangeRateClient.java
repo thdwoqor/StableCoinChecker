@@ -5,8 +5,8 @@ import org.example.stablecoinchecker.infra.exchangerate.dto.ExchangeRateResponse
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@FeignClient(name = "ExchangeRate", url = "https://quotation-api-cdn.dunamu.com")
+@FeignClient(name = "ExchangeRate", url = "https://api.manana.kr")
 public interface ExchangeRateClient {
-    @GetMapping("/v1/forex/recent?codes=FRX.KRWUSD")
+    @GetMapping("/exchange/rate.json?base=KRW&code=USD")
     List<ExchangeRateResponse> getExchangeRate();
 }
