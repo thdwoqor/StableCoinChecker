@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ExchangeRateService {
 
+    private final ExchangeRateClient exchangeRateClient;
+
     public BigDecimal getExchangeRate() {
-        return new BigDecimal(String.valueOf(
-                "1388"
-        ));
+        return exchangeRateClient.getExchangeRate()
+                .get(0)
+                .rate();
     }
 }
