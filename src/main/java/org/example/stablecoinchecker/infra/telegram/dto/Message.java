@@ -17,7 +17,7 @@ public class Message {
         StringBuilder sb = new StringBuilder();
         sb.append("• *환율*\n");
         sb.append("```복사\n");
-        sb.append(String.format("USD/KRW : %,d원\n", exchangeRate.intValue()));
+        sb.append(String.format("USD/KRW : %,.2f원\n", exchangeRate.doubleValue()));
         sb.append("```\n");
         return new Message(sb.toString());
     }
