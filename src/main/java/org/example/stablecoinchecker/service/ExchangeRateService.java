@@ -13,7 +13,6 @@ public class ExchangeRateService {
 
     public BigDecimal getExchangeRate() {
         return exchangeRateClient.getExchangeRate()
-                .get(0)
-                .rate();
+                .fiat_rates().krw();
     }
 }
