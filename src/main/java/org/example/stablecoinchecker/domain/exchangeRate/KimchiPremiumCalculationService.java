@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class KimchiPremiumCalculationService {
 
     public double calculate(final CryptoTicker cryptoTicker, final ExchangeRate exchangeRate) {
-        return cryptoTicker.getCurrentPrice().divide(exchangeRate.getValue(), 3, RoundingMode.HALF_DOWN)
+        return cryptoTicker.getCurrentPrice().divide(exchangeRate.getPrice(), 3, RoundingMode.HALF_DOWN)
                 .subtract(BigDecimal.ONE)
                 .multiply(new BigDecimal("100"))
                 .setScale(1)
