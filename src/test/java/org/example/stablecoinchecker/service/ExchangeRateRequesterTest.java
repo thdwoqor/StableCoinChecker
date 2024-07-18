@@ -23,14 +23,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
-class ExchangeRateServiceTest {
+class ExchangeRateRequesterTest {
 
     @MockBean
     private MananaExchangeRateClient mananaExchangeRateClient;
     @MockBean
     private CoinCodexExchangeRateClient coinCodexExchangeRateClient;
     @Autowired
-    private ExchangeRateService exchangeRateService;
+    private ExchangeRateRequester exchangeRateRequester;
     @Autowired
     private CircuitBreakerRegistry circuitBreakerRegistry;
 
@@ -48,7 +48,7 @@ class ExchangeRateServiceTest {
                 .thenReturn(List.of(new MananaExchangeRateResponse("KRW=X", new BigDecimal("1382.39"), 1721000000L)));
         when(coinCodexExchangeRateClient.getExchangeRate())
                 .thenReturn(new CoinCodexExchangeRateResponse(new FiatRates(result)));
-        BigDecimal exchangeRate = exchangeRateService.save().getPrice();
+        BigDecimal exchangeRate = exchangeRateRequester.getCurrentExchangeRate().getPrice();
 
         //then
         verify(mananaExchangeRateClient, times(2)).getExchangeRate();
@@ -69,7 +69,7 @@ class ExchangeRateServiceTest {
         State initialState = circuitBreaker.getState();
 
         for (int i = 0; i < 5; i++) {
-            exchangeRateService.save();
+            exchangeRateRequester.getCurrentExchangeRate();
         }
 
         Assertions.assertThat(circuitBreaker.getState()).isEqualTo(State.OPEN);
@@ -92,7 +92,7 @@ class ExchangeRateServiceTest {
         State initialState = circuitBreaker.getState();
 
         for (int i = 0; i < 2; i++) {
-            exchangeRateService.save();
+            exchangeRateRequester.getCurrentExchangeRate();
         }
 
         Assertions.assertThat(initialState).isEqualTo(State.HALF_OPEN);
@@ -113,7 +113,7 @@ class ExchangeRateServiceTest {
         circuitBreaker.transitionToOpenState();
 
         for (int i = 0; i < 5; i++) {
-            exchangeRateService.save();
+            exchangeRateRequester.getCurrentExchangeRate();
         }
 
         Assertions.assertThat(circuitBreaker.getState()).isEqualTo(State.OPEN);

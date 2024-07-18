@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class MessagingService {
 
     private final MessagingServiceProvider messagingServiceProvider;
-    private final ExchangeRateService exchangeRateService;
+    private final ExchangeRateUpdateService exchangeRateUpdateService;
     private final CryptoTickerService cryptoTickerService;
     private final KimchiPremiumCalculationService kimchiPremiumCalculationService;
 
@@ -27,7 +27,7 @@ public class MessagingService {
             lockAtMostFor = "4m"
     )
     public void sendMessage() {
-        ExchangeRate exchangeRate = exchangeRateService.save();
+        ExchangeRate exchangeRate = exchangeRateUpdateService.updateExchangeRate();
         List<CryptoTicker> cryptoTicker = cryptoTickerService.saveAll();
 
         StringBuffer sb = new StringBuffer();
