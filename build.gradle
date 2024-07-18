@@ -16,9 +16,16 @@ repositories {
 }
 
 dependencies {
+    //resilience4j
+    implementation "io.github.resilience4j:resilience4j-spring-boot3"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
+
     //caffeine
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+
+    //websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'

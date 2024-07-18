@@ -13,7 +13,7 @@ public class MessageFormatter {
         StringBuilder sb = new StringBuilder();
         sb.append("• *환율*\n");
         sb.append("```복사\n");
-        sb.append(String.format("USD/KRW : %,d원\n", exchangeRate.getValue().intValue()));
+        sb.append(String.format("USD/KRW : %,.2f원\n", exchangeRate.getPrice().doubleValue()));
         sb.append("```\n");
         return sb.toString();
     }
