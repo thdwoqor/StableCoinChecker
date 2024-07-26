@@ -31,7 +31,6 @@ resource "aws_codebuild_project" "this" {
 }
 
 resource "aws_iam_role" "codebuild" {
-  name               = "codebuild-role"
   assume_role_policy = jsonencode(
     {
       "Version" : "2012-10-17",
@@ -48,7 +47,6 @@ resource "aws_iam_role" "codebuild" {
 }
 
 resource "aws_iam_role_policy" "codebuild" {
-  name = "codebuild-role-policy"
   role = aws_iam_role.codebuild.id
 
   policy = jsonencode({

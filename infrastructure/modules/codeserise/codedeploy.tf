@@ -12,7 +12,7 @@ resource "aws_codedeploy_deployment_group" "this" {
     ec2_tag_filter {
       key   = "Name"
       type  = "KEY_AND_VALUE"
-      value = "after-2"
+      value = var.instance_tag_name
     }
   }
   auto_rollback_configuration {
@@ -22,7 +22,6 @@ resource "aws_codedeploy_deployment_group" "this" {
 }
 
 resource "aws_iam_role" "codedeploy" {
-  name = "codedeploy-role"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

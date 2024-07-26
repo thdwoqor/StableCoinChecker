@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = var.bucket_name
+  bucket        = var.bucket_name
   force_destroy = true
 
   tags = var.tags
@@ -15,23 +15,21 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 resource "aws_iam_policy" "s3" {
-  name        = var.project_name
+  name = var.project_name
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "s3:GetObject",
+        "Action" : [
           "s3:PutObject",
+          "s3:GetObject",
           "s3:ListBucket",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:PutObjectAcl"
         ],
-        Effect = "Allow",
-        Resource = [
-          aws_s3_bucket.this.arn,
-          "${aws_s3_bucket.this.arn}/*"
-        ]
+        Effect   = "Allow",
+        Resource = ["*"]
       }
     ]
   })
