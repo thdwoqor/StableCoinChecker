@@ -9,7 +9,7 @@ resource "aws_codepipeline" "this" {
   role_arn      = aws_iam_role.codepipeline.arn
 
   artifact_store {
-    location = data.terraform_remote_state.s3.outputs.s3_bucket
+    location = var.s3_bucket_id
     type     = "S3"
   }
 
@@ -26,7 +26,7 @@ resource "aws_codepipeline" "this" {
 
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.this.arn
-        FullRepositoryId = var.full_repository_id
+        FullRepositoryId = var.repo_path
         BranchName       = var.branch_name
 
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
@@ -73,8 +73,6 @@ resource "aws_codepipeline" "this" {
 
 
 resource "aws_iam_role" "codepipeline" {
-  name = "codepipeline-role"
-
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -93,7 +91,6 @@ resource "aws_iam_role" "codepipeline" {
 }
 
 resource "aws_iam_role_policy" "codepipeline" {
-  name = "codepipeline-role-policy"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({
@@ -113,7 +110,7 @@ resource "aws_iam_role_policy" "codepipeline" {
           "codestar-connections:UseConnection"
         ]
         "Resource" : [
-          "${aws_codestarconnections_connection.this.arn}"
+          aws_codestarconnections_connection.this.arn
         ]
       },
       {
@@ -131,5 +128,24 @@ resource "aws_iam_role_policy" "codepipeline" {
 
 resource "aws_iam_role_policy_attachment" "codepipeline" {
   role       = aws_iam_role.codepipeline.id
-  policy_arn = data.terraform_remote_state.s3.outputs.s3_iam_arn
+  policy_arn = aws_iam_policy.artifact_store.arn
+}
+
+resource "aws_iam_policy" "artifact_store" {
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject",
+          "s3:PutObjectAcl"
+        ],
+        Effect   = "Allow",
+        Resource = ["*"]
+      }
+    ]
+  })
 }
