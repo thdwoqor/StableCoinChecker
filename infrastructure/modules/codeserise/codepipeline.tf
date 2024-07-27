@@ -128,5 +128,24 @@ resource "aws_iam_role_policy" "codepipeline" {
 
 resource "aws_iam_role_policy_attachment" "codepipeline" {
   role       = aws_iam_role.codepipeline.id
-  policy_arn = var.s3_iam_arn
+  policy_arn = aws_iam_policy.artifact_store.arn
+}
+
+resource "aws_iam_policy" "artifact_store" {
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject",
+          "s3:PutObjectAcl"
+        ],
+        Effect   = "Allow",
+        Resource = ["*"]
+      }
+    ]
+  })
 }

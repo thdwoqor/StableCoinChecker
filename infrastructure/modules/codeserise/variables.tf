@@ -25,7 +25,3 @@ variable "instance_tag_name" {
 variable "s3_bucket_id" {
   type = string
 }
-
-variable "s3_iam_arn" {
-  type = string
-}
