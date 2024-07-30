@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
 import org.example.stablecoinchecker.domain.cryptoticker.CryptoTickerRepository;
 import org.example.stablecoinchecker.domain.cryptoticker.Price;
-import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTickerSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -26,7 +26,7 @@ public class CryptoPair extends BaseEntity {
     public CryptoPair(
             final CryptoExchange cryptoExchange,
             final CryptoSymbol cryptoSymbol,
-            final DuplicateCryptoPairValidator validator
+            final CryptoPairValidator validator
     ) {
         validator.validate(cryptoExchange, cryptoSymbol);
         this.cryptoExchange = cryptoExchange;
@@ -36,7 +36,7 @@ public class CryptoPair extends BaseEntity {
     public void update(
             final CryptoExchange cryptoExchange,
             final CryptoSymbol cryptoSymbol,
-            final DuplicateCryptoPairValidator validator
+            final CryptoPairValidator validator
     ) {
         validator.validate(cryptoExchange, cryptoSymbol);
         this.cryptoExchange = cryptoExchange;

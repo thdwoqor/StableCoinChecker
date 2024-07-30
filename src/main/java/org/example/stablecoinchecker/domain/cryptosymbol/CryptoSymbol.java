@@ -21,7 +21,7 @@ public class CryptoSymbol extends BaseEntity {
     public CryptoSymbol(
             final String name,
             final String imgUrl,
-            final DuplicateCryptoSymbolValidator validator
+            final CryptoSymbolValidator validator
     ) {
         validator.validate(name);
         this.name = name;
@@ -31,7 +31,7 @@ public class CryptoSymbol extends BaseEntity {
     public void update(
             final String name,
             final String imgUrl,
-            final DuplicateCryptoSymbolValidator validator
+            final CryptoSymbolValidator validator
     ) {
         validator.validate(name);
         this.name = name;

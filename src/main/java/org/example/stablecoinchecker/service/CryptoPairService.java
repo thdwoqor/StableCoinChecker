@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.cryptopair.CryptoPair;
 import org.example.stablecoinchecker.domain.cryptopair.CryptoPairRepository;
-import org.example.stablecoinchecker.domain.cryptopair.DuplicateCryptoPairValidator;
+import org.example.stablecoinchecker.domain.cryptopair.CryptoPairValidator;
 import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbol;
 import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolRepository;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
@@ -23,7 +23,7 @@ public class CryptoPairService {
 
     private final CryptoPairRepository cryptoPairRepository;
     private final CryptoSymbolRepository cryptoSymbolRepository;
-    private final DuplicateCryptoPairValidator validator;
+    private final CryptoPairValidator validator;
 
     @Transactional(readOnly = true)
     public Map<CryptoExchange, List<CryptoSymbolResponse>> getCategories() {

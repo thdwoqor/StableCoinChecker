@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DuplicateCryptoPairValidator {
+public class DuplicateCryptoPairValidator implements CryptoPairValidator {
 
     private final CryptoPairRepository cryptoPairRepository;
 
