@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DuplicateCryptoSymbolValidator {
+public class DuplicateCryptoSymbolValidator implements CryptoSymbolValidator {
 
     private final CryptoSymbolRepository cryptoSymbolRepository;
 

@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbol;
 import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolRepository;
+import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolValidator;
 import org.example.stablecoinchecker.domain.cryptosymbol.DuplicateCryptoSymbolValidator;
 import org.example.stablecoinchecker.service.dto.CryptoSymbolRequest;
 import org.example.stablecoinchecker.service.dto.CryptoSymbolResponse;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CryptoSymbolService {
 
     private final CryptoSymbolRepository cryptoSymbolRepository;
-    private final DuplicateCryptoSymbolValidator validator;
+    private final CryptoSymbolValidator validator;
 
     @Transactional(readOnly = true)
     public List<CryptoSymbolResponse> findAll() {
