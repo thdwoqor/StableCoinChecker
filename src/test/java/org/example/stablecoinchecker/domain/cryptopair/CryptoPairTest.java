@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.example.stablecoinchecker.DatabaseClearExtension;
 import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbol;
 import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolRepository;
-import org.example.stablecoinchecker.domain.cryptosymbol.DuplicateCryptoSymbolValidator;
+import org.example.stablecoinchecker.domain.cryptosymbol.CryptoSymbolValidator;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +22,9 @@ class CryptoPairTest {
     @Autowired
     private CryptoSymbolRepository cryptoSymbolRepository;
     @Autowired
-    private DuplicateCryptoPairValidator cryptoPairValidator;
+    private CryptoPairValidator cryptoPairValidator;
     @Autowired
-    private DuplicateCryptoSymbolValidator cryptoSymbolValidator;
+    private CryptoSymbolValidator cryptoSymbolValidator;
 
     @Test
     void 중복된_페어를_저장시_예외가_발생한다() {
