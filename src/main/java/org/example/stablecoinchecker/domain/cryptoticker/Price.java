@@ -14,21 +14,6 @@ import lombok.ToString;
 public class Price {
 
     private BigDecimal close;
-    private BigDecimal open;
-    private BigDecimal low;
-    private BigDecimal high;
-
-    public Price(
-            final BigDecimal close,
-            final BigDecimal open,
-            final BigDecimal low,
-            final BigDecimal high
-    ) {
-        this.close = close;
-        this.open = open;
-        this.low = low;
-        this.high = high;
-    }
 
     public Price(final BigDecimal close) {
         this.close = close;
