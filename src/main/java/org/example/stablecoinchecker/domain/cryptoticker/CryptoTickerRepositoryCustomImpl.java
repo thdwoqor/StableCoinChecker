@@ -7,7 +7,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Comparator;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 

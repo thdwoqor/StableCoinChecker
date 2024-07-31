@@ -1,4 +1,4 @@
-package org.example.stablecoinchecker.service.dto;
+package org.example.stablecoinchecker.domain.cryptoticker;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

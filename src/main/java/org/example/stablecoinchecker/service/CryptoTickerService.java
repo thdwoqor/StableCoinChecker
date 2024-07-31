@@ -12,7 +12,7 @@ import org.example.stablecoinchecker.domain.cryptoticker.Price;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
 import org.example.stablecoinchecker.infra.cex.TickerResponse;
-import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTickerSearchCondition;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

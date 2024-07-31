@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
 import org.example.stablecoinchecker.service.CryptoTickerService;
-import org.example.stablecoinchecker.service.dto.CryptoTickerSearchCondition;
+import org.example.stablecoinchecker.domain.cryptoticker.CryptoTickerSearchCondition;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
