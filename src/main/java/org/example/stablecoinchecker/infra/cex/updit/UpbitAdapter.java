@@ -1,9 +1,11 @@
 package org.example.stablecoinchecker.infra.cex.updit;
 
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
-import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
-import org.example.stablecoinchecker.infra.cex.TickerResponse;
+import org.example.stablecoinchecker.infra.cex.StableCoin;
+import org.example.stablecoinchecker.infra.cex.StableCoinProvider;
 import org.example.stablecoinchecker.infra.cex.updit.dto.UpditTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -11,21 +13,24 @@ import org.springframework.stereotype.Service;
 @Service
 @Order(1)
 @RequiredArgsConstructor
-public class UpbitAdapter implements CryptoExchangeClient {
+public class UpbitAdapter implements StableCoinProvider {
 
+    private static final String PAYMENT_CURRENCY = "KRW";
     private final UpbitClient upbitClient;
 
     @Override
-    public TickerResponse getTickers(final String cryptoSymbol) {
-        UpditTickerResponse response = upbitClient.getTicker(
-                cryptoSymbol,
-                CryptoExchangeClient.PAYMENT_CURRENCY
-        ).get(0);
-        return response.toTickerResponse(CryptoExchange.UPBIT, cryptoSymbol);
+    public List<StableCoin> getStableCoins() {
+        return Arrays.stream(UpbitStableCoin.values())
+                .map(this::getStableCoinTicker)
+                .toList();
     }
 
-    @Override
-    public boolean supports(final CryptoExchange cryptoExchange) {
-        return CryptoExchange.UPBIT == cryptoExchange;
+    private StableCoin getStableCoinTicker(final UpbitStableCoin stableCoin) {
+        UpditTickerResponse response = upbitClient.getTicker(
+                stableCoin.getSymbol(),
+                PAYMENT_CURRENCY
+        ).get(0);
+        return response.toTickerResponse(CryptoExchange.UPBIT, stableCoin.getSymbol());
     }
+
 }

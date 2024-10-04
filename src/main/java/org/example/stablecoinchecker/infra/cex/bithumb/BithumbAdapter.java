@@ -1,9 +1,11 @@
 package org.example.stablecoinchecker.infra.cex.bithumb;
 
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
-import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
-import org.example.stablecoinchecker.infra.cex.TickerResponse;
+import org.example.stablecoinchecker.infra.cex.StableCoin;
+import org.example.stablecoinchecker.infra.cex.StableCoinProvider;
 import org.example.stablecoinchecker.infra.cex.bithumb.dto.BithumbTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -11,21 +13,25 @@ import org.springframework.stereotype.Service;
 @Service
 @Order(2)
 @RequiredArgsConstructor
-public class BithumbAdapter implements CryptoExchangeClient {
+public class BithumbAdapter implements StableCoinProvider {
+
+    private static final String PAYMENT_CURRENCY = "KRW";
 
     private final BithumbClient bithumbClient;
 
     @Override
-    public TickerResponse getTickers(final String cryptoSymbol) {
-        BithumbTickerResponse response = bithumbClient.getTicker(
-                cryptoSymbol,
-                CryptoExchangeClient.PAYMENT_CURRENCY
-        );
-        return response.toStableCoinTicker(CryptoExchange.BITHUMB, cryptoSymbol);
+    public List<StableCoin> getStableCoins() {
+        return Arrays.stream(BithumbStableCoin.values())
+                .map(this::getStableCoinTicker)
+                .toList();
     }
 
-    @Override
-    public boolean supports(final CryptoExchange cryptoExchange) {
-        return CryptoExchange.BITHUMB == cryptoExchange;
+    private StableCoin getStableCoinTicker(final BithumbStableCoin stableCoin) {
+        BithumbTickerResponse response = bithumbClient.getTicker(
+                stableCoin.getSymbol(),
+                PAYMENT_CURRENCY
+        );
+        return response.toTickerResponse(CryptoExchange.BITHUMB, stableCoin.getSymbol());
     }
+
 }

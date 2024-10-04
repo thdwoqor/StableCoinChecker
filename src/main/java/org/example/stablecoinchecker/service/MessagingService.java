@@ -3,11 +3,10 @@ package org.example.stablecoinchecker.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.example.stablecoinchecker.domain.cryptoticker.CryptoTicker;
+import org.example.stablecoinchecker.infra.cex.StableCoin;
 import org.example.stablecoinchecker.domain.exchangeRate.ExchangeRate;
-import org.example.stablecoinchecker.domain.exchangeRate.KimchiPremiumCalculationService;
 import org.example.stablecoinchecker.infra.telegram.MessagingServiceProvider;
-import org.example.stablecoinchecker.service.dto.MessageFormatter;
+import org.example.stablecoinchecker.service.dto.Message;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,7 @@ public class MessagingService {
 
     private final MessagingServiceProvider messagingServiceProvider;
     private final ExchangeRateUpdateService exchangeRateUpdateService;
-    private final CryptoTickerService cryptoTickerService;
-    private final KimchiPremiumCalculationService kimchiPremiumCalculationService;
+    private final StableCoinRequester stableCoinRequester;
 
     @Scheduled(cron = "${schedule.cron}")
     @SchedulerLock(
@@ -28,16 +26,11 @@ public class MessagingService {
     )
     public void sendMessage() {
         ExchangeRate exchangeRate = exchangeRateUpdateService.updateExchangeRate();
-        List<CryptoTicker> cryptoTicker = cryptoTickerService.saveAll();
+        List<StableCoin> stableCoins = stableCoinRequester.getStableCoins();
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(MessageFormatter.formatExchangeRateMessage(exchangeRate));
-        sb.append(MessageFormatter.formatStablecoinMessage(
-                cryptoTicker,
-                exchangeRate,
-                kimchiPremiumCalculationService
-        ));
+        Message message = Message.create(stableCoins, exchangeRate);
 
-        messagingServiceProvider.sendMessage(sb.toString());
+        messagingServiceProvider.sendMessage(message.getMessage());
     }
+
 }

@@ -1,9 +1,11 @@
 package org.example.stablecoinchecker.infra.cex.korbit;
 
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
-import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
-import org.example.stablecoinchecker.infra.cex.TickerResponse;
+import org.example.stablecoinchecker.infra.cex.StableCoin;
+import org.example.stablecoinchecker.infra.cex.StableCoinProvider;
 import org.example.stablecoinchecker.infra.cex.korbit.dto.KorbitTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -11,21 +13,25 @@ import org.springframework.stereotype.Service;
 @Service
 @Order(4)
 @RequiredArgsConstructor
-public class KorbitAdapter implements CryptoExchangeClient {
+public class KorbitAdapter implements StableCoinProvider {
+
+    private static final String PAYMENT_CURRENCY = "krw";
 
     private final KorbitClient korbitClient;
 
     @Override
-    public TickerResponse getTickers(final String cryptoSymbol) {
-        KorbitTickerResponse response = korbitClient.getTicker(
-                cryptoSymbol.toLowerCase(),
-                CryptoExchangeClient.PAYMENT_CURRENCY.toLowerCase()
-        );
-        return response.toTickerResponse(CryptoExchange.KORBIT, cryptoSymbol);
+    public List<StableCoin> getStableCoins() {
+        return Arrays.stream(KorbitStableCoin.values())
+                .map(this::getStableCoinTicker)
+                .toList();
     }
 
-    @Override
-    public boolean supports(final CryptoExchange cryptoExchange) {
-        return CryptoExchange.KORBIT == cryptoExchange;
+    private StableCoin getStableCoinTicker(final KorbitStableCoin stableCoin) {
+        KorbitTickerResponse response = korbitClient.getTicker(
+                stableCoin.getSymbol(),
+                PAYMENT_CURRENCY
+        );
+        return response.toTickerResponse(CryptoExchange.KORBIT, stableCoin.getSymbol());
     }
+
 }

@@ -1,10 +1,12 @@
 package org.example.stablecoinchecker.infra.cex.coinone;
 
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
-import org.example.stablecoinchecker.infra.cex.CryptoExchangeClient;
-import org.example.stablecoinchecker.infra.cex.TickerResponse;
+import org.example.stablecoinchecker.infra.cex.StableCoinProvider;
+import org.example.stablecoinchecker.infra.cex.StableCoin;
 import org.example.stablecoinchecker.infra.cex.coinone.dto.CoinoneTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -13,21 +15,25 @@ import org.springframework.stereotype.Service;
 @Service
 @Order(3)
 @RequiredArgsConstructor
-public class CoinoneAdapter implements CryptoExchangeClient {
+public class CoinoneAdapter implements StableCoinProvider {
+
+    private static final String PAYMENT_CURRENCY = "KRW";
 
     private final CoinoneClient coinoneClient;
 
     @Override
-    public TickerResponse getTickers(final String cryptoSymbol) {
-        CoinoneTickerResponse response = coinoneClient.getTicker(
-                cryptoSymbol,
-                CryptoExchangeClient.PAYMENT_CURRENCY
-        );
-        return response.toStableCoinTicker(CryptoExchange.COINONE, cryptoSymbol);
+    public List<StableCoin> getStableCoins() {
+        return Arrays.stream(CoinoneStableCoin.values())
+                .map(this::getStableCoinTicker)
+                .toList();
     }
 
-    @Override
-    public boolean supports(final CryptoExchange cryptoExchange) {
-        return CryptoExchange.COINONE == cryptoExchange;
+    private StableCoin getStableCoinTicker(final CoinoneStableCoin stableCoin) {
+        CoinoneTickerResponse response = coinoneClient.getTicker(
+                stableCoin.getSymbol(),
+                PAYMENT_CURRENCY
+        );
+        return response.toTickerResponse(CryptoExchange.COINONE, stableCoin.getSymbol());
     }
+
 }

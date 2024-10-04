@@ -2,5 +2,5 @@ package org.example.stablecoinchecker.infra.telegram;
 
 public interface MessagingServiceProvider {
 
-    void sendMessage(String requests);
+    void sendMessage(String message);
 }

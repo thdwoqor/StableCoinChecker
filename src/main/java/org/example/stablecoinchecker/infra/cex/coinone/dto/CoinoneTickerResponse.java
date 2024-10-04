@@ -2,7 +2,7 @@ package org.example.stablecoinchecker.infra.cex.coinone.dto;
 
 import java.util.List;
 import org.example.stablecoinchecker.infra.cex.CryptoExchange;
-import org.example.stablecoinchecker.infra.cex.TickerResponse;
+import org.example.stablecoinchecker.infra.cex.StableCoin;
 
 public record CoinoneTickerResponse(
         String result,
@@ -10,8 +10,8 @@ public record CoinoneTickerResponse(
         List<Ticker> tickers
 ) {
 
-    public TickerResponse toStableCoinTicker(final CryptoExchange cryptoExchange, final String orderCurrency) {
-        return new TickerResponse(
+    public StableCoin toTickerResponse(final CryptoExchange cryptoExchange, final String orderCurrency) {
+        return new StableCoin(
                 cryptoExchange.name(),
                 orderCurrency.toUpperCase(),
                 tickers.get(0).last(),
