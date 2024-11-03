@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
 import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
 import org.example.stablecoinchecker.infra.cex.bithumb.dto.BithumbTickerResponse;
+import org.example.stablecoinchecker.infra.cex.coinone.dto.CoinoneTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,11 @@ public class BithumTickerProvider implements StableCoinTickerProvider {
     public List<StableCoinTicker> getStableCoin() {
         List<StableCoinTicker> responses = new ArrayList<>();
         for (BithumbStableCoin value : BithumbStableCoin.values()) {
-            BithumbTickerResponse response = bithumbClient.getTicker(value.getName(), "KRW");
-            responses.add(response.toStableCoinTicker(value));
+            try {
+                BithumbTickerResponse response = bithumbClient.getTicker(value.getName(), "KRW");
+                responses.add(response.toStableCoinTicker(value));
+            } catch (Exception e) {
+            }
         }
         return responses;
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.cex.StableCoinTickerProvider;
 import org.example.stablecoinchecker.infra.cex.StableCoinTicker;
+import org.example.stablecoinchecker.infra.cex.bithumb.dto.BithumbTickerResponse;
 import org.example.stablecoinchecker.infra.cex.gopax.dto.GopaxTickerResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ public class GopaxTickerProvider implements StableCoinTickerProvider {
     public List<StableCoinTicker> getStableCoin() {
         List<StableCoinTicker> responses = new ArrayList<>();
         for (GopaxStableCoin value : GopaxStableCoin.values()) {
-            GopaxTickerResponse response = gopaxClient.getTicker(value.getName(), "KRW");
-            responses.add(response.toStableCoinTicker(value));
+            try {
+                GopaxTickerResponse response = gopaxClient.getTicker(value.getName(), "KRW");
+                responses.add(response.toStableCoinTicker(value));
+            } catch (Exception e) {
+            }
         }
         return responses;
     }
