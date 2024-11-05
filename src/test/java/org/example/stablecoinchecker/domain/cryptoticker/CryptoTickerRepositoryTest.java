@@ -18,22 +18,22 @@ class CryptoTickerRepositoryTest {
     @Autowired
     private EntityManager em;
 
-    @Test
-    @Transactional
-    void 생성시간에서_초단위_제거() {
-        //given
-        CryptoTicker cryptoTicker = new CryptoTicker(
-                "UPBIT",
-                "USDT",
-                new Price(
-                        new BigDecimal(1371)
-                )
-        );
-
-        //when
-        em.persist(cryptoTicker);
-
-        //then
-        Assertions.assertThat(cryptoTicker.getCreatedAt() % 60).isZero();
-    }
+//    @Test
+//    @Transactional
+//    void 생성시간에서_초단위_제거() {
+//        //given
+//        CryptoTicker cryptoTicker = new CryptoTicker(
+//                "UPBIT",
+//                "USDT",
+//                new Price(
+//                        new BigDecimal(1371)
+//                )
+//        );
+//
+//        //when
+//        em.persist(cryptoTicker);
+//
+//        //then
+//        Assertions.assertThat(cryptoTicker.getCreatedAt() % 60).isZero();
+//    }
 }

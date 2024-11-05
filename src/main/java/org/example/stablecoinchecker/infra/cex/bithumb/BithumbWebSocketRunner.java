@@ -6,7 +6,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketClient;
 
 @Slf4j
@@ -20,6 +19,13 @@ public class BithumbWebSocketRunner {
     @EventListener(ApplicationReadyEvent.class)
     public void connect() {
         client.execute(handler, "wss://pubwss.bithumb.com/pub/ws");
+    }
+
+    @Scheduled(fixedRate = 2000)
+    public void reconnect() {
+        if (handler.isNotConnected()) {
+            connect();
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package org.example.stablecoinchecker.service;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.example.stablecoinchecker.domain.candlestick.CryptoExchange;
 import org.example.stablecoinchecker.domain.candlestick.Symbol;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +20,6 @@ public class CandlestickGenerator {
     private final CandlestickRepository candlestickRepository;
     private final Map<Code, Candlestick> messagingBroker = new ConcurrentHashMap<>();
 
-    @Async
     @EventListener
     public void candleStickGeneration(final CryptoExchangeTickerEvent event) {
         if (messagingBroker.containsKey(
@@ -38,20 +37,18 @@ public class CandlestickGenerator {
         );
 
         if (isExpired(candlestick, event)) {
-            candlestickRepository.save(candlestick);
-            resetCandlestick(event);
+            Code code = new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol()));
+            Candlestick newCandlestick = Candlestick.oneMinute(code, event.price(), event.timestamp());
+            candlestickRepository.save(newCandlestick); // 새로운 객체로 저장
+            messagingBroker.put(code, newCandlestick);
         } else {
+            // 기존 캔들스틱 업데이트
             candlestick.update(event.price());
         }
     }
 
     private boolean isExpired(Candlestick candlestick, CryptoExchangeTickerEvent event) {
         return candlestick.getTimestamp() < event.timestamp();
-    }
-
-    private void resetCandlestick(CryptoExchangeTickerEvent event) {
-        messagingBroker.remove(new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol())));
-        createNewCandlestick(event);
     }
 
     private void createNewCandlestick(CryptoExchangeTickerEvent event) {

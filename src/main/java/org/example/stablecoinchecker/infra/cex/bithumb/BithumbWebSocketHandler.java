@@ -4,17 +4,20 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.stablecoinchecker.infra.cex.JsonUtils;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
+import org.example.stablecoinchecker.infra.cex.JsonUtils;
 import org.example.stablecoinchecker.infra.cex.bithumb.dto.BithumbWebSocketRequest;
 import org.example.stablecoinchecker.infra.cex.bithumb.dto.BithumbWebSocketResponse;
 import org.example.stablecoinchecker.infra.cex.bithumb.dto.Content;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -28,6 +31,7 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
 
     private static final int MILLISECOND = 1000;
 
+    private final List<WebSocketSession> sessions = new ArrayList<>();
     private final ApplicationEventPublisher publisher;
     private final JsonUtils jsonUtils;
 
@@ -37,11 +41,11 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
                 jsonUtils.serialize(
                         new BithumbWebSocketRequest(
                                 "ticker",
-                                List.of("USDT_KRW","BTC_KRW"),
+                                List.of("USDT_KRW"),
                                 List.of("24H")
                         )
                 )));
-
+        sessions.add(session);
     }
 
     @Override
@@ -69,5 +73,25 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         ZoneId zoneId = ZoneId.of("Asia/Seoul");
         return dateTime.toEpochSecond(zoneId.getRules().getOffset(dateTime)) * MILLISECOND;
+    }
+
+    @Override
+    public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) throws Exception {
+        sessions.remove(session);
+    }
+
+    @Scheduled(fixedRate = 2000)
+    public void expire() {
+        sessions.forEach(session -> {
+            try {
+                session.sendMessage(new TextMessage("PING"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public boolean isNotConnected() {
+        return sessions.isEmpty();
     }
 }
