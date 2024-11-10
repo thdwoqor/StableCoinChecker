@@ -14,7 +14,7 @@ import org.example.stablecoinchecker.domain.BaseEntity;
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Candlestick {
+public class Candlestick extends BaseEntity{
 
     @Embedded
     private Code code;
