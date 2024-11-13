@@ -1,52 +1,45 @@
 package org.example.stablecoinchecker.domain.candlestick;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.example.stablecoinchecker.domain.BaseEntity;
 
 @Getter
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Candlestick extends BaseEntity{
+public class Candlestick {
 
-    @Embedded
-    private Code code;
+    @EmbeddedId
+    private CandlestickId candlestickId;
     private BigDecimal open;
     private BigDecimal close;
     private BigDecimal high;
     private BigDecimal low;
-    @Embedded
-    private Timestamp timestamp;
 
     public Candlestick(
-            final Code code,
+            final CandlestickId candlestickId,
             final BigDecimal open,
             final BigDecimal close,
             final BigDecimal high,
-            final BigDecimal low,
-            final Timestamp timestamp
+            final BigDecimal low
     ) {
-        this.code = code;
+        this.candlestickId = candlestickId;
         this.open = open;
         this.close = close;
         this.high = high;
         this.low = low;
-        this.timestamp = timestamp;
     }
 
     public static Candlestick createNew(
-            final Code code,
-            final BigDecimal price,
-            final Timestamp timestamp
+            final CandlestickId candlestickId,
+            final BigDecimal price
     ) {
-        return new Candlestick(code, price, price, price, price, timestamp);
+        return new Candlestick(candlestickId, price, price, price, price);
     }
 
     public void update(final BigDecimal price) {

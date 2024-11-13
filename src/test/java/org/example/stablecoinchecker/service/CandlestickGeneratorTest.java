@@ -3,19 +3,22 @@ package org.example.stablecoinchecker.service;
 import java.math.BigDecimal;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
+import org.example.stablecoinchecker.TestConfig;
 import org.example.stablecoinchecker.domain.candlestick.Candlestick;
+import org.example.stablecoinchecker.domain.candlestick.CandlestickId;
 import org.example.stablecoinchecker.domain.candlestick.CandlestickRepository;
-import org.example.stablecoinchecker.domain.candlestick.Code;
 import org.example.stablecoinchecker.domain.candlestick.CryptoExchange;
 import org.example.stablecoinchecker.domain.candlestick.Symbol;
 import org.example.stablecoinchecker.domain.candlestick.TimeInterval;
-import org.example.stablecoinchecker.domain.candlestick.Timestamp;
+import org.example.stablecoinchecker.infra.NamedLockWithJdbcTemplate;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 @SpringBootTest
+@Import(TestConfig.class)
 class CandlestickGeneratorTest {
 
     @Autowired
@@ -65,13 +68,11 @@ class CandlestickGeneratorTest {
         }
 
         //then
-        Candlestick candlestick1 = candlestickRepository.findByCodeAndTimestamp(
-                new Code(CryptoExchange.BITHUMB, Symbol.USDT),
-                new Timestamp(TimeInterval.MIN1, 1731045875583L)
+        Candlestick candlestick1 = candlestickRepository.findByCandlestickId(
+                CandlestickId.from(CryptoExchange.BITHUMB, Symbol.USDT.name(), TimeInterval.MIN1, 1731045875583L)
         ).orElseThrow();
-        Candlestick candlestick2 = candlestickRepository.findByCodeAndTimestamp(
-                new Code(CryptoExchange.BITHUMB, Symbol.USDT),
-                new Timestamp(TimeInterval.MIN1, 1731045905583L)
+        Candlestick candlestick2 = candlestickRepository.findByCandlestickId(
+                CandlestickId.from(CryptoExchange.BITHUMB, Symbol.USDT.name(), TimeInterval.MIN1, 1731045905583L)
         ).orElseThrow();
 
         SoftAssertions.assertSoftly(softly -> {
