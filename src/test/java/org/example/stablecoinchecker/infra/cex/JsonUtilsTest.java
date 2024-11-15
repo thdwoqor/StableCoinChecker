@@ -1,8 +1,5 @@
 package org.example.stablecoinchecker.infra.cex;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
@@ -11,8 +8,9 @@ import org.junit.jupiter.api.Test;
 
 class JsonUtilsTest {
 
+    //https://junuuu.tistory.com/821
     @Test
-    void name() {
+    void 타입이_맞지않는경우_empty_를_반환한다() {
         String message = "{\"status\":\"UP\"}";
 
         JsonUtils jsonUtils = new JsonUtils(new ObjectMapper());

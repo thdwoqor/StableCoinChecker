@@ -41,7 +41,7 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
                 jsonUtils.serialize(
                         new BithumbWebSocketRequest(
                                 "ticker",
-                                List.of("USDT_KRW"),
+                                List.of("USDT_KRW","BTC_KRW"),
                                 List.of("24H")
                         )
                 )));
@@ -77,6 +77,8 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) throws Exception {
+        System.out.println("##");
+        System.out.println("종료 이벤트");
         sessions.remove(session);
     }
 

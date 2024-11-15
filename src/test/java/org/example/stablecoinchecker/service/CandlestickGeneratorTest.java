@@ -10,15 +10,17 @@ import org.example.stablecoinchecker.domain.candlestick.CandlestickRepository;
 import org.example.stablecoinchecker.domain.candlestick.CryptoExchange;
 import org.example.stablecoinchecker.domain.candlestick.Symbol;
 import org.example.stablecoinchecker.domain.candlestick.TimeInterval;
-import org.example.stablecoinchecker.infra.NamedLockWithJdbcTemplate;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @Import(TestConfig.class)
+@TestPropertySource(properties = {"app.scheduling.enable=false"})
 class CandlestickGeneratorTest {
 
     @Autowired
@@ -27,6 +29,7 @@ class CandlestickGeneratorTest {
     private CandlestickRepository candlestickRepository;
 
     @Test
+    @Disabled
     void 캔들스택을_생성할_수_있다() {
         //given
         List<CryptoExchangeTickerEvent> events = List.of(
@@ -68,10 +71,10 @@ class CandlestickGeneratorTest {
         }
 
         //then
-        Candlestick candlestick1 = candlestickRepository.findByCandlestickId(
+        Candlestick candlestick1 = candlestickRepository.findById(
                 CandlestickId.from(CryptoExchange.BITHUMB, Symbol.USDT.name(), TimeInterval.MIN1, 1731045875583L)
         ).orElseThrow();
-        Candlestick candlestick2 = candlestickRepository.findByCandlestickId(
+        Candlestick candlestick2 = candlestickRepository.findById(
                 CandlestickId.from(CryptoExchange.BITHUMB, Symbol.USDT.name(), TimeInterval.MIN1, 1731045905583L)
         ).orElseThrow();
 

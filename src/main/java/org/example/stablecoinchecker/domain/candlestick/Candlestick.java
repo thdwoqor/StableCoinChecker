@@ -21,7 +21,7 @@ public class Candlestick {
     private BigDecimal high;
     private BigDecimal low;
 
-    public Candlestick(
+    private Candlestick(
             final CandlestickId candlestickId,
             final BigDecimal open,
             final BigDecimal close,

@@ -35,7 +35,7 @@ public class UpbitWebSocketHandler extends BinaryWebSocketHandler {
         session.sendMessage(new TextMessage(jsonUtils.serialize(
                 List.of(
                         new UpbitTicketRequest(UUID.randomUUID().toString()),
-                        new UpbitWebSocketRequest("ticker", List.of("KRW-USDT"))
+                        new UpbitWebSocketRequest("ticker", List.of("KRW-USDT","KRW-BTC"))
                 )
         )));
         sessions.add(session);
