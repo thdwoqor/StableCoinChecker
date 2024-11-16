@@ -41,7 +41,7 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
                 jsonUtils.serialize(
                         new BithumbWebSocketRequest(
                                 "ticker",
-                                List.of("USDT_KRW","BTC_KRW"),
+                                List.of("USDT_KRW", "BTC_KRW"),
                                 List.of("24H")
                         )
                 )));
@@ -77,8 +77,6 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) throws Exception {
-        System.out.println("##");
-        System.out.println("종료 이벤트");
         sessions.remove(session);
     }
 
@@ -88,7 +86,7 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
             try {
                 session.sendMessage(new TextMessage("PING"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("빗썸 웹소켓과 연결이 끊어졌습니다.", e);
             }
         });
     }

@@ -10,7 +10,6 @@ import org.example.stablecoinchecker.domain.candlestick.CryptoExchange;
 import org.example.stablecoinchecker.domain.candlestick.TimeInterval;
 import org.example.stablecoinchecker.infra.NamedLockWithJdbcTemplate;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
-import org.hibernate.annotations.Array;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class CandlestickGenerator {
     private final NamedLockWithJdbcTemplate template;
 
     @EventListener
-    @Async("customAsyncExecutor")
+    @Async("candlestickGeneratorAsyncExecutor")
     public void candleStickGeneration(final CryptoExchangeTickerEvent event) {
         template.executeWithNamedLock(event.identifier() + event.symbol(), FIVE_SECONDS, () -> {
             List<Candlestick> candlesticks = getCandlesticks(event);

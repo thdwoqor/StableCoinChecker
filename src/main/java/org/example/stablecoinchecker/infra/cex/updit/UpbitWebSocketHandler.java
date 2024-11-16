@@ -68,7 +68,7 @@ public class UpbitWebSocketHandler extends BinaryWebSocketHandler {
             try {
                 session.sendMessage(new TextMessage("PING"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("업비트 웹소켓과 연결이 끊어졌습니다.", e);
             }
         });
     }

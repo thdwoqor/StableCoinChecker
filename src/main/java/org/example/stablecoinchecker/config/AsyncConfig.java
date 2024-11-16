@@ -10,13 +10,13 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableAsync
 public class AsyncConfig {
 
-    @Bean("customAsyncExecutor")
-    public Executor customAsyncExecutor() {
+    @Bean("candlestickGeneratorAsyncExecutor")
+    public Executor candlestickGeneratorAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(5);
-        executor.setThreadNamePrefix("bepoz");
-        executor.initialize(); // 꼭 써줘야 한다.
+        executor.setThreadNamePrefix("executor-");
+        executor.initialize();
         return executor;
     }
 }
