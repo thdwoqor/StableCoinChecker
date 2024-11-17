@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CandlestickRepositoryImpl implements CandlestickRepositoryCustom {
 
-    private static final String BULK_INSERT_PREFIX = "insert into candlestick (close,high,low,open,crypto_exchange,symbol,time_interval,timestamp) values ";
+    private static final String BULK_INSERT_PREFIX = "insert into candlestick2 (close,high,low,open,crypto_exchange,symbol,time_interval,timestamp) values ";
     private static final String BULK_INSERT_VALUE = "(%f, %f, %f, %f, '%s', '%s', '%s', %d)";
     private static final String BULK_INSERT_SUFFIX = " ON DUPLICATE KEY UPDATE close = VALUES(close), high = VALUES(high), low = VALUES(low);";
 
