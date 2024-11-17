@@ -1,63 +1,81 @@
 package org.example.stablecoinchecker.service;
 
-import java.math.BigDecimal;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import jakarta.persistence.EntityManager;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.domain.candlestick.Candlestick;
+import org.example.stablecoinchecker.domain.candlestick.CandlestickId;
 import org.example.stablecoinchecker.domain.candlestick.CandlestickRepository;
-import org.example.stablecoinchecker.domain.candlestick.Code;
 import org.example.stablecoinchecker.domain.candlestick.CryptoExchange;
-import org.example.stablecoinchecker.domain.candlestick.Symbol;
+import org.example.stablecoinchecker.domain.candlestick.TimeInterval;
+import org.example.stablecoinchecker.infra.NamedLockWithJdbcTemplate;
 import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CandlestickGenerator {
 
+    private static final int FIVE_SECONDS = 5;
+
     private final CandlestickRepository candlestickRepository;
-    private final Map<Code, Candlestick> messagingBroker = new ConcurrentHashMap<>();
+    private final NamedLockWithJdbcTemplate template;
+    private final EntityManager em;
 
     @EventListener
+    @Async("candlestickGeneratorAsyncExecutor")
     public void candleStickGeneration(final CryptoExchangeTickerEvent event) {
-        if (messagingBroker.containsKey(
-                new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol()))
-        )) {
-            handleExistingCandlestick(event);
-        } else {
-            createNewCandlestick(event);
-        }
+        template.executeWithNamedLock(event.identifier() + event.symbol(), FIVE_SECONDS, () -> {
+            List<Candlestick> candlesticks = getCandlesticks(event);
+
+            for (TimeInterval timeInterval : TimeInterval.values()) {
+                boolean isAlive = false;
+                for (Candlestick candlestick : candlesticks) {
+                    if (candlestick.getCandlestickId().getTimeInterval() == timeInterval) {
+                        isAlive = true;
+                        candlestick.update(event.price());
+                        candlesticks.add(candlestick);
+                        break;
+                    }
+                }
+                if (isAlive == false) {
+                    candlesticks.add(Candlestick.createNew(
+                            CandlestickId.from(
+                                    CryptoExchange.from(event.identifier()),
+                                    event.symbol(),
+                                    timeInterval,
+                                    event.timestamp()
+                            ),
+                            event.price()
+                    ));
+                }
+            }
+
+            candlestickRepository.insertOrUpdateAll(candlesticks);
+        });
     }
 
-    private void handleExistingCandlestick(CryptoExchangeTickerEvent event) {
-        Candlestick candlestick = messagingBroker.get(
-                new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol()))
-        );
-
-        if (isExpired(candlestick, event)) {
-            Code code = new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol()));
-            Candlestick newCandlestick = Candlestick.oneMinute(code, event.price(), event.timestamp());
-            candlestickRepository.save(newCandlestick); // 새로운 객체로 저장
-            messagingBroker.put(code, newCandlestick);
-        } else {
-            // 기존 캔들스틱 업데이트
-            candlestick.update(event.price());
-        }
-    }
-
-    private boolean isExpired(Candlestick candlestick, CryptoExchangeTickerEvent event) {
-        return candlestick.getTimestamp() < event.timestamp();
-    }
-
-    private void createNewCandlestick(CryptoExchangeTickerEvent event) {
-        messagingBroker.put(new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol())),
-                Candlestick.oneMinute(
-                        new Code(CryptoExchange.from(event.identifier()), Symbol.from(event.symbol())),
-                        event.price(),
+    private List<Candlestick> getCandlesticks(final CryptoExchangeTickerEvent event) {
+        List<CandlestickId> candlestickIds = Arrays.stream(TimeInterval.values()).map(
+                timeInterval -> CandlestickId.from(
+                        CryptoExchange.from(event.identifier()),
+                        event.symbol(),
+                        timeInterval,
                         event.timestamp()
                 )
-        );
+        ).toList();
+
+        List<Candlestick> candlesticks = candlestickRepository.findAllById(candlestickIds);
+        for (Candlestick candlestick : candlesticks) {
+            em.detach(candlestick);
+        }
+
+        return candlesticks;
     }
+
 }

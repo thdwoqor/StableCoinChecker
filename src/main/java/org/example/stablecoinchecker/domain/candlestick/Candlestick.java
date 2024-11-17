@@ -1,51 +1,46 @@
 package org.example.stablecoinchecker.domain.candlestick;
 
-import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.example.stablecoinchecker.domain.BaseEntity;
 
 @Getter
 @Entity
-@ToString
+@Table(name = "candlestick2")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Candlestick extends BaseEntity {
+public class Candlestick {
 
-    @Embedded
-    private Code code;
+    @EmbeddedId
+    private CandlestickId candlestickId;
     private BigDecimal open;
     private BigDecimal close;
     private BigDecimal high;
     private BigDecimal low;
-    @Enumerated(value = EnumType.STRING)
-    private TimeInterval timeInterval;
-    private Long timestamp;
 
-    public Candlestick(final Code code, final BigDecimal open,
-                       final BigDecimal close, final BigDecimal high,
-                       final BigDecimal low, final TimeInterval timeInterval, final Long timestamp) {
-        this.code = code;
+    private Candlestick(
+            final CandlestickId candlestickId,
+            final BigDecimal open,
+            final BigDecimal close,
+            final BigDecimal high,
+            final BigDecimal low
+    ) {
+        this.candlestickId = candlestickId;
         this.open = open;
         this.close = close;
         this.high = high;
         this.low = low;
-        this.timeInterval = timeInterval;
-        this.timestamp = timestamp;
     }
 
-    public static Candlestick oneMinute(final Code code,
-                                        final BigDecimal price, final Long timestamp) {
-        long epochMilli = Instant.ofEpochMilli(timestamp - (timestamp % 60 * 1000) + 60 * 2000)
-                .truncatedTo(ChronoUnit.MINUTES).toEpochMilli();
-        return new Candlestick(code, price, price, price, price, TimeInterval.MIN1, epochMilli);
+    public static Candlestick createNew(
+            final CandlestickId candlestickId,
+            final BigDecimal price
+    ) {
+        return new Candlestick(candlestickId, price, price, price, price);
     }
 
     public void update(final BigDecimal price) {

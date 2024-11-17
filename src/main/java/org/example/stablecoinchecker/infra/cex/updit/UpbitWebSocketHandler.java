@@ -35,7 +35,7 @@ public class UpbitWebSocketHandler extends BinaryWebSocketHandler {
         session.sendMessage(new TextMessage(jsonUtils.serialize(
                 List.of(
                         new UpbitTicketRequest(UUID.randomUUID().toString()),
-                        new UpbitWebSocketRequest("ticker", List.of("KRW-USDT"))
+                        new UpbitWebSocketRequest("ticker", List.of("KRW-USDT","KRW-BTC"))
                 )
         )));
         sessions.add(session);
@@ -68,7 +68,7 @@ public class UpbitWebSocketHandler extends BinaryWebSocketHandler {
             try {
                 session.sendMessage(new TextMessage("PING"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("업비트 웹소켓과 연결이 끊어졌습니다.", e);
             }
         });
     }
