@@ -2,6 +2,7 @@ package org.example.stablecoinchecker.domain.candlestick;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.ToString;
 
 @Getter
 @Entity
-@ToString
+@Table(name = "candlestick2")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Candlestick {
 

@@ -1,5 +1,6 @@
 package org.example.stablecoinchecker.service;
 
+import jakarta.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,10 @@ import org.example.stablecoinchecker.infra.cex.CryptoExchangeTickerEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CandlestickGenerator {
 
@@ -22,6 +25,7 @@ public class CandlestickGenerator {
 
     private final CandlestickRepository candlestickRepository;
     private final NamedLockWithJdbcTemplate template;
+    private final EntityManager em;
 
     @EventListener
     @Async("candlestickGeneratorAsyncExecutor")
@@ -66,7 +70,12 @@ public class CandlestickGenerator {
                 )
         ).toList();
 
-        return candlestickRepository.findAllById(candlestickIds);
+        List<Candlestick> candlesticks = candlestickRepository.findAllById(candlestickIds);
+        for (Candlestick candlestick : candlesticks) {
+            em.detach(candlestick);
+        }
+
+        return candlesticks;
     }
 
 }
