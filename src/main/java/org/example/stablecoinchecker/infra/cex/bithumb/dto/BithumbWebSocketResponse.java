@@ -1,16 +1,17 @@
 package org.example.stablecoinchecker.infra.cex.bithumb.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@JsonIgnoreProperties
 public class BithumbWebSocketResponse {
 
     private Content content;
 
     public BithumbWebSocketResponse(
-            @JsonProperty(value = "content", required = true)
             final Content content
     ) {
         this.content = content;
