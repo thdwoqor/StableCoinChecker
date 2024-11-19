@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@JsonIgnoreProperties
 public class BithumbWebSocketResponse {
 
     private Content content;
