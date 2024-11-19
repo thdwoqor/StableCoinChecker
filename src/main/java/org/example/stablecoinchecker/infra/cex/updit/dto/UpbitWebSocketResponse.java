@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
-@ToString
 @NoArgsConstructor
 public class UpbitWebSocketResponse {
 
-    @JsonProperty("trade_price")
+    @JsonProperty(value = "trade_price")
     private BigDecimal tradePrice;
     private Long timestamp;
     private String code;

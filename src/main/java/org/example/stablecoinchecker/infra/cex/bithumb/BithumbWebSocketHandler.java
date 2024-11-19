@@ -56,7 +56,7 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
 
     private void dispatchTickerEvent(final BithumbWebSocketResponse response) {
         Content content = response.getContent();
-        if (content != null) {
+        if (validate(content)) {
             publisher.publishEvent(
                     new CryptoExchangeTickerEvent(
                             "BITHUMB",
@@ -65,6 +65,14 @@ class BithumbWebSocketHandler extends TextWebSocketHandler {
                             convertUnixTimestamp(content.getDate(), content.getTime())
                     ));
         }
+    }
+
+    private boolean validate(final Content content) {
+        return content != null &&
+                content.getSymbol() != null &&
+                content.getClosePrice() != null &&
+                content.getDate() != null &&
+                content.getTime() != null;
     }
 
     private Long convertUnixTimestamp(final String date, final String time) {

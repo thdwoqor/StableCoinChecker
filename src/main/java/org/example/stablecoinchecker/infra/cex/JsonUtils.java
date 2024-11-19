@@ -1,23 +1,18 @@
 package org.example.stablecoinchecker.infra.cex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class JsonUtils {
 
     private final ObjectMapper mapper;
-
-    public JsonUtils(final ObjectMapper mapper) {
-        ObjectMapper copy = mapper.copy();
-        copy.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        this.mapper = copy;
-    }
 
     public <T> String serialize(T data) {
         try {

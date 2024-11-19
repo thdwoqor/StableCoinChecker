@@ -1,13 +1,11 @@
 package org.example.stablecoinchecker.infra.cex.bithumb.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@JsonIgnoreProperties
 public class Content {
     private String symbol;
     private String date;
