@@ -35,7 +35,7 @@ public class UpbitWebSocketHandler extends BinaryWebSocketHandler {
         session.sendMessage(new TextMessage(jsonUtils.serialize(
                 List.of(
                         new UpbitTicketRequest(UUID.randomUUID().toString()),
-                        new UpbitWebSocketRequest("ticker", List.of("KRW-USDT","KRW-BTC"))
+                        new UpbitWebSocketRequest("ticker", List.of("KRW-USDT", "KRW-BTC"))
                 )
         )));
         sessions.add(session);
@@ -48,13 +48,22 @@ public class UpbitWebSocketHandler extends BinaryWebSocketHandler {
     }
 
     private void dispatchTickerEvent(final UpbitWebSocketResponse response) {
-        publisher.publishEvent(
-                new CryptoExchangeTickerEvent(
-                        "UPBIT",
-                        response.getCode().split("-")[1],
-                        response.getTradePrice(),
-                        response.getTimestamp()
-                ));
+        if (validate(response)) {
+            publisher.publishEvent(
+                    new CryptoExchangeTickerEvent(
+                            "UPBIT",
+                            response.getCode().split("-")[1],
+                            response.getTradePrice(),
+                            response.getTimestamp()
+                    ));
+        }
+    }
+
+    private boolean validate(final UpbitWebSocketResponse response) {
+        return response != null &&
+                response.getCode() != null &&
+                response.getTimestamp() != null &&
+                response.getTradePrice() != null;
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class JsonUtils {
+
     private final ObjectMapper mapper;
 
     public <T> String serialize(T data) {
@@ -37,9 +38,7 @@ public class JsonUtils {
             payload.get(bytes);
             String jsonString = new String(bytes, StandardCharsets.UTF_8);
 
-            T t = mapper.readValue(jsonString, valueType);
-
-            return Optional.of(t);
+            return deserialize(jsonString, valueType);
         } catch (Exception e) {
             return Optional.empty();
         }
