@@ -21,10 +21,10 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 @Import(TestConfig.class)
 @TestPropertySource(properties = {"app.scheduling.enable=false"})
-class CandlestickGeneratorTest {
+class CandlestickServiceTest {
 
     @Autowired
-    private CandlestickGenerator candlestickGenerator;
+    private CandlestickService candlestickService;
     @Autowired
     private CandlestickRepository candlestickRepository;
 
@@ -67,7 +67,7 @@ class CandlestickGeneratorTest {
 
         //when
         for (CryptoExchangeTickerEvent event : events) {
-            candlestickGenerator.candleStickGeneration(event);
+            candlestickService.candleStickGeneration(event);
         }
 
         //then
