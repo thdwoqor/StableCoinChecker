@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.stablecoinchecker.infra.exchangerate.coincodex.CoinCodexExchangeRateClient;
 import org.example.stablecoinchecker.infra.exchangerate.coincodex.dto.CoinCodexExchangeRateResponse;
+import org.example.stablecoinchecker.infra.exchangerate.investing.InvestingClientImpl;
 import org.example.stablecoinchecker.infra.exchangerate.manana.MananaExchangeRateClient;
 import org.example.stablecoinchecker.infra.exchangerate.manana.dto.MananaExchangeRateResponse;
 import org.springframework.retry.annotation.Backoff;
@@ -20,18 +21,18 @@ public class ExchangeRateService {
     private static final String USD_KRW = "KRW=X";
     private static final int FIFTEEN_MINUTES = 900;
 
+    private final InvestingClientImpl investingClient;
     private final CoinCodexExchangeRateClient coinCodexExchangeRateClient;
     private final MananaExchangeRateClient mananaExchangeRateClient;
 
     @Retryable(
             value = {Exception.class},
-            maxAttempts = 2,
+            maxAttempts = 1,
             backoff = @Backoff(delay = 1000),
             recover = "recover"
     )
     public BigDecimal getExchangeRate() {
         List<MananaExchangeRateResponse> exchangeRates = mananaExchangeRateClient.getExchangeRate();
-
         MananaExchangeRateResponse result = exchangeRates.stream()
                 .filter(response -> response.symbol().equals(USD_KRW))
                 .findFirst()
@@ -46,7 +47,13 @@ public class ExchangeRateService {
 
     @Recover
     public BigDecimal recover() {
-        CoinCodexExchangeRateResponse exchangeRate = coinCodexExchangeRateClient.getExchangeRate();
-        return exchangeRate.fiatRates().krw();
+
+        try {
+            BigDecimal exchangeRate = investingClient.getExchangeRate();
+            return exchangeRate;
+        } catch (Exception e) {
+            CoinCodexExchangeRateResponse exchangeRate = coinCodexExchangeRateClient.getExchangeRate();
+            return exchangeRate.fiatRates().krw();
+        }
     }
 }
